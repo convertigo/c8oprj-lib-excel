@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:lib_MicrosoftExcel_ns="http://www.convertigo.com/convertigo/projects/lib_MicrosoftExcel" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.convertigo.com/convertigo/projects/lib_MicrosoftExcel">
+    <xsd:element name="MSGraphConnector__GetRange" type="lib_MicrosoftExcel_ns:MSGraphConnector__GetRangeRequestData">
+        <xsd:annotation/>
+    </xsd:element>
+    <xsd:element name="MSGraphConnector__GetRangeResponse">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="response" type="lib_MicrosoftExcel_ns:MSGraphConnector__GetRangeResponseData"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+    <xsd:complexType name="MSGraphConnector__GetRangeResponseType">
+        <xsd:sequence>
+            <xsd:element name="document" type="lib_MicrosoftExcel_ns:MSGraphConnector__GetRangeResponseData"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector__GetRangeRequestData">
+        <xsd:sequence>
+            <xsd:element name="name" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>new variable</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="range" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>new variable</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="itemPath" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:appinfo>new variable</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object__odata_contextType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="@odata.context" name="originalKeyName" type="xsd:string"/>
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object__odata_idType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="@odata.id" name="originalKeyName" type="xsd:string"/>
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object__odata_typeType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="@odata.type" name="originalKeyName" type="xsd:string"/>
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_addressType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_addressLocalType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_cellCountType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_columnCountType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_columnHiddenType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_columnIndexType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_formulas_array_valueType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_formulas_arrayType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="value" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_formulas_array_valueType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_formulasType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="array" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_formulas_arrayType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_formulasLocal_array_valueType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_formulasLocal_arrayType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="value" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_formulasLocal_array_valueType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_formulasLocalType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="array" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_formulasLocal_arrayType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_formulasR1C1_array_valueType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_formulasR1C1_arrayType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="value" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_formulasR1C1_array_valueType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_formulasR1C1Type">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="array" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_formulasR1C1_arrayType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_hiddenType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_numberFormat_array_valueType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_numberFormat_arrayType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="value" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_numberFormat_array_valueType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_numberFormatType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="array" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_numberFormat_arrayType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_rowCountType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_rowHiddenType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_rowIndexType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_text_array_valueType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_text_arrayType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="value" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_text_array_valueType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_textType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="array" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_text_arrayType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_valueTypes_array_valueType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_valueTypes_arrayType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="value" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_valueTypes_array_valueType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_valueTypesType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="array" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_valueTypes_arrayType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_values_array_valueType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute default="string" name="type" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_values_arrayType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="value" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_values_array_valueType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_object_valuesType">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="array" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_values_arrayType"/>
+        </xsd:sequence>
+        <xsd:attribute name="length" type="xsd:byte"/>
+        <xsd:attribute default="array" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector_GetRange_document_objectType">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="_odata_context" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object__odata_contextType"/>
+            <xsd:element minOccurs="0" name="_odata_id" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object__odata_idType"/>
+            <xsd:element minOccurs="0" name="_odata_type" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object__odata_typeType"/>
+            <xsd:element minOccurs="0" name="address" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_addressType"/>
+            <xsd:element minOccurs="0" name="addressLocal" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_addressLocalType"/>
+            <xsd:element minOccurs="0" name="cellCount" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_cellCountType"/>
+            <xsd:element minOccurs="0" name="columnCount" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_columnCountType"/>
+            <xsd:element minOccurs="0" name="columnHidden" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_columnHiddenType"/>
+            <xsd:element minOccurs="0" name="columnIndex" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_columnIndexType"/>
+            <xsd:element minOccurs="0" name="formulas" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_formulasType"/>
+            <xsd:element minOccurs="0" name="formulasLocal" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_formulasLocalType"/>
+            <xsd:element minOccurs="0" name="formulasR1C1" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_formulasR1C1Type"/>
+            <xsd:element minOccurs="0" name="hidden" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_hiddenType"/>
+            <xsd:element minOccurs="0" name="numberFormat" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_numberFormatType"/>
+            <xsd:element minOccurs="0" name="rowCount" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_rowCountType"/>
+            <xsd:element minOccurs="0" name="rowHidden" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_rowHiddenType"/>
+            <xsd:element minOccurs="0" name="rowIndex" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_rowIndexType"/>
+            <xsd:element minOccurs="0" name="text" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_textType"/>
+            <xsd:element minOccurs="0" name="valueTypes" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_valueTypesType"/>
+            <xsd:element minOccurs="0" name="values" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_object_valuesType"/>
+        </xsd:sequence>
+        <xsd:attribute default="object" name="type" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="MSGraphConnector__GetRangeResponseData">
+        <xsd:sequence>
+            <xsd:element minOccurs="0" name="object" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_objectType"/>
+            <xsd:element minOccurs="0" name="error" type="lib_MicrosoftExcel_ns:ConvertigoError"/>
+        </xsd:sequence>
+        <xsd:attribute name="connector" type="xsd:string"/>
+        <xsd:attribute name="context" type="xsd:string"/>
+        <xsd:attribute name="contextId" type="xsd:string"/>
+        <xsd:attribute name="fromStub" type="xsd:boolean"/>
+        <xsd:attribute name="fromcache" type="xsd:boolean"/>
+        <xsd:attribute name="generated" type="xsd:string"/>
+        <xsd:attribute name="project" type="xsd:string"/>
+        <xsd:attribute name="sequence" type="xsd:string"/>
+        <xsd:attribute name="signature" type="xsd:long"/>
+        <xsd:attribute name="transaction" type="xsd:string"/>
+        <xsd:attribute name="version" type="xsd:string"/>
+        <xsd:attribute name="screenclass" type="xsd:string"/>
+        <xsd:attribute name="userReference" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="ConvertigoErrorContextVariable">
+        <xsd:attribute name="name" type="xsd:string"/>
+        <xsd:attribute name="value" type="xsd:string"/>
+    </xsd:complexType>
+    <xsd:complexType name="ConvertigoErrorContext">
+        <xsd:sequence>
+            <xsd:element maxOccurs="unbounded" minOccurs="0" name="variable" type="lib_MicrosoftExcel_ns:ConvertigoErrorContextVariable"/>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="ConvertigoError">
+        <xsd:sequence minOccurs="0">
+            <xsd:element name="code" type="xsd:integer"/>
+            <xsd:element name="message" type="xsd:string"/>
+            <xsd:element name="details" type="xsd:string"/>
+            <xsd:element name="context" type="lib_MicrosoftExcel_ns:ConvertigoErrorContext"/>
+            <xsd:element name="exception" type="xsd:string"/>
+            <xsd:element name="stacktrace" type="xsd:string"/>
+        </xsd:sequence>
+        <xsd:attribute name="project" type="xsd:string"/>
+        <xsd:attribute name="connector" type="xsd:string"/>
+        <xsd:attribute name="transaction" type="xsd:string"/>
+        <xsd:attribute name="sequence" type="xsd:string"/>
+        <xsd:attribute name="type">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="c8o"/>
+                    <xsd:enumeration value="project"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:attribute>
+    </xsd:complexType>
+</xsd:schema>

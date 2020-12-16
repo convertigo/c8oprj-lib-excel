@@ -1,0 +1,13 @@
+baseDir: /v1.0/me
+https: true
+port: 443
+server: graph.microsoft.com
+↓Default_transaction [transactions.HttpTransaction]: 
+  ↑default: true
+↓DriveSearchFiles [transactions.JsonHttpTransaction]: 
+  subDir: /root/search(q='.xlsx')?select=name,id,webUrl
+↓GetRange [transactions.JsonHttpTransaction]: 
+  subDir: /drive/root:/{itemPath}:/workbook/worksheets/{name}/range(address='{range}')
+  ↓name [variables.RequestableHttpVariable-1608125492523]: 
+  ↓range [variables.RequestableHttpVariable-1608132385874]: 
+  ↓itemPath [variables.RequestableHttpVariable-1608132648207]: 

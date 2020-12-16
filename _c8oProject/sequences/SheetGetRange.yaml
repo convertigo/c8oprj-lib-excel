@@ -1,0 +1,121 @@
+↓Call_Sequence [steps.SequenceStep-1608132452375]: 
+  sourceSequence: lib_MicrosoftExcel.checkAccessToken
+↓IfExist [steps.IfExistStep-1608132470039]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1608132452375
+        - java.lang.String: 
+          - ↑value: ./document/token
+  ↓Call_Transaction [steps.TransactionStep-1608132498520]: 
+    sourceTransaction: lib_MicrosoftExcel.MSGraphConnector.GetRange
+    ↓__header_Authorization [variables.StepVariable-1608132732409]: 
+      sourceDefinition: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - java.lang.String: 
+              - ↑value: 1608132452375
+            - java.lang.String: 
+              - ↑value: ./document/token/text()
+    ↓name [variables.StepVariable-1608132498522]: 
+    ↓range [variables.StepVariable-1608132498524]: 
+    ↓itemPath [variables.StepVariable-1608132697372]: 
+  ↓Complex [steps.XMLComplexStep-1608137264462]: 
+    nodeName: sheet
+    ↓Complexh [steps.XMLComplexStep-1608137264465]: 
+      nodeName: columns
+      ↓Attribute [steps.XMLAttributeStep-1608137264468]: 
+        nodeName: type
+        nodeText: array
+      ↓initColumns [steps.SimpleStep-1608140115082]: 
+        expression: |
+          columns = [];
+          
+          
+      ↓Iterator [steps.IteratorStep-1608137297896]: 
+        sourceDefinition: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+            - com.twinsoft.convertigo.beans.common.XMLVector: 
+              - java.lang.String: 
+                - ↑value: 1608132498520
+              - java.lang.String: 
+                - ↑value: ./document/object/values/array[1]/value
+        ↓Complex [steps.XMLComplexStep-1608137264474]: 
+          nodeName: def
+          ↓Attribute [steps.XMLAttributeStep-1608137264477]: 
+            nodeName: type
+            nodeText: object
+          ↓Element [steps.XMLElementStep-1608137553017]: 
+            nodeName: field
+            sourceDefinition: 
+              - xmlizable: 
+                - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                - com.twinsoft.convertigo.beans.common.XMLVector: 
+                  - java.lang.String: 
+                    - ↑value: 1608137297896
+                  - java.lang.String: 
+                    - ↑value: ./text()
+          ↓addToColumnArray [steps.SimpleStep-1608140056070]: 
+            expression: |
+              columns.push(item.getTextContent())
+              
+    ↓Complex [steps.XMLComplexStep-1608137264483]: 
+      nodeName: data
+      ↓Attribute [steps.XMLAttributeStep-1608137264486]: 
+        nodeName: type
+        nodeText: array
+      ↓Iterator [steps.IteratorStep-1608138209043]: 
+        sourceDefinition: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+            - com.twinsoft.convertigo.beans.common.XMLVector: 
+              - java.lang.String: 
+                - ↑value: 1608132498520
+              - java.lang.String: 
+                - ↑value: ./document/object/values/array[position() > 1]
+        ↓Complex [steps.XMLComplexStep-1608137264492]: 
+          nodeName: row
+          ↓Attribute [steps.XMLAttributeStep-1608137264495]: 
+            nodeName: type
+            nodeText: object
+          ↓Iterator [steps.IteratorStep-1608138351158]: 
+            sourceDefinition: 
+              - xmlizable: 
+                - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                - com.twinsoft.convertigo.beans.common.XMLVector: 
+                  - java.lang.String: 
+                    - ↑value: 1608138209043
+                  - java.lang.String: 
+                    - ↑value: ./value
+            ↓HandleStrings [steps.SimpleStep-1608141179195]: 
+              expression: |
+                'jValue = item.getTextContent() + ""; 
+                if (item.getAttribute("type") == "string") {
+                	jValue = jValue.substring(1);
+                	jValue = jValue.substring(0, jValue.length - 1);
+                }
+                   '
+            ↓jElement [steps.ElementStep-1608141294565]: 
+              expression: jValue
+              nodeName: cell
+              ↓Attribute [steps.XMLAttributeStep-1608140934687]: 
+                nodeName: type
+                nodeText: string
+                sourceDefinition: 
+                  - xmlizable: 
+                    - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                    - com.twinsoft.convertigo.beans.common.XMLVector: 
+                      - java.lang.String: 
+                        - ↑value: 1608138351158
+                      - java.lang.String: 
+                        - ↑value: ./@type
+              ↓jAttribute [steps.AttributeStep-1608137264510]: 
+                expression: columns[index]
+                nodeName: originalKeyName
+↓name [variables.RequestableVariable-1608135058427]: 
+↓range [variables.RequestableVariable-1608135058429]: 
+↓itemPath [variables.RequestableVariable-1608135058431]: 

@@ -1,0 +1,144 @@
+comment: |
+  Perform the OAuth flow for AzureAD
+  
+  If the token is valid, it will be stored in the user's session to be used when calling Microsoft APIs.
+  
+  Also if the token is valid, setAuthenticatedUser step is executed to flag this session as authenticated.
+  
+↓Input_variables [steps.InputVariablesStep-1608054852498]: 
+↓bearer [steps.XMLConcatStep-1608054852501]: 
+  nodeName: bearer
+  output: false
+  sourcesDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - java.lang.String: 
+              - ↑value: description
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - java.lang.String: 
+              - ↑value: Bearer
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - java.lang.String: 
+              - ↑value: description
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: 1608054852498
+                - java.lang.String: 
+                  - ↑value: ./access_token/text()
+            - java.lang.String: 
+              - ↑value: ''
+↓SaveTokenInUserSession [steps.SessionSetStep-1608054852504]: 
+  expression: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: SOURCE
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1608054852501
+          - java.lang.String: 
+            - ↑value: ./text()
+  key: oAuthAzureADAccessToken
+↓Call_Transaction [steps.TransactionStep-1608054852507]: 
+  sourceTransaction: lib_OAuth.MicrosoftGraphApi.Me
+  ↓__header_Authorization [variables.StepVariable-1608054852510]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1608054852501
+          - java.lang.String: 
+            - ↑value: ./text()
+↓IfExist [steps.IfExistThenElseStep-1608054852513]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1608054852507
+        - java.lang.String: 
+          - ↑value: ./document/object/userPrincipalName
+  ↓jThen [steps.ThenStep-1608054852516]: 
+    ↓login [steps.XMLElementStep-1608054852519]: 
+      nodeName: login
+      nodeText: ok
+    ↓Concat [steps.XMLConcatStep-1608054852522]: 
+      nodeName: authUser
+      separator: 
+      sourcesDefinition: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: description
+                - xmlizable: 
+                  - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                  - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: azuread:
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: description
+                - xmlizable: 
+                  - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                  - com.twinsoft.convertigo.beans.common.XMLVector: 
+                    - java.lang.String: 
+                      - ↑value: 1608054852507
+                    - java.lang.String: 
+                      - ↑value: ./document/object/id/text()
+                - java.lang.String: 
+                  - ↑value: ''
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: description
+                - xmlizable: 
+                  - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                  - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: ':'
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: description
+                - xmlizable: 
+                  - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+                  - com.twinsoft.convertigo.beans.common.XMLVector: 
+                    - java.lang.String: 
+                      - ↑value: 1608054852507
+                    - java.lang.String: 
+                      - ↑value: ./document/object/userPrincipalName/text()
+                - java.lang.String: 
+                  - ↑value: ''
+    ↓Copy [steps.XMLCopyStep-1608054852528]: 
+      sourceDefinition: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - java.lang.String: 
+              - ↑value: 1608054852507
+            - java.lang.String: 
+              - ↑value: ./document/object
+  ↓jElse [steps.ElseStep-1608054852531]: 
+    ↓login [steps.XMLElementStep-1608054852534]: 
+      nodeName: login
+      nodeText: ko
+↓access_token [variables.RequestableVariable-1608054852537]: 

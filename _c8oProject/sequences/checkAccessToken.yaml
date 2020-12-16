@@ -1,0 +1,53 @@
+comment: |
+  Checks is a valid access token is held by the current users' session for AzureAD
+  
+  This as to be called by client apps to decide whenever or not they have to display an OAuth login screen
+  
+  
+↓GetTokenFromUserSession [steps.SessionGetStep-1608054876179]: 
+  key: oAuthAzureADAccessToken
+  output: false
+↓IfExistThenElse [steps.IfExistStep-1608054876182]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1608054876179
+        - java.lang.String: 
+          - ↑value: ./key
+  ↓Call_Transaction [steps.TransactionStep-1608054876185]: 
+    sourceTransaction: lib_OAuth.MicrosoftGraphApi.Me
+    ↓__header_Authorization [variables.StepVariable-1608054876188]: 
+      sourceDefinition: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - java.lang.String: 
+              - ↑value: 1608054876179
+            - java.lang.String: 
+              - ↑value: ./expression/text()
+  ↓IfExist [steps.IfExistStep-1608054876191]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1608054876185
+          - java.lang.String: 
+            - ↑value: ./document/object/userPrincipalName
+    ↓login [steps.XMLElementStep-1608054876194]: 
+      nodeName: token
+      nodeText: ok
+      sourceDefinition: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+          - com.twinsoft.convertigo.beans.common.XMLVector: 
+            - java.lang.String: 
+              - ↑value: 1608054876179
+            - java.lang.String: 
+              - ↑value: ./expression/text()
+    ↓Return [steps.ReturnStep-1608054876197]: 
+↓login [steps.XMLElementStep-1608054876200]: 
+  nodeName: notoken
+  nodeText: true
