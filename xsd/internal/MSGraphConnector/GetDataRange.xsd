@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?><xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:lib_MicrosoftExcel_ns="http://www.convertigo.com/convertigo/projects/lib_MicrosoftExcel" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://www.convertigo.com/convertigo/projects/lib_MicrosoftExcel">
-    <xsd:element name="MSGraphConnector__GetRange" type="lib_MicrosoftExcel_ns:MSGraphConnector__GetRangeRequestData">
+    <xsd:element name="MSGraphConnector__GetDataRange" type="lib_MicrosoftExcel_ns:MSGraphConnector__GetDataRangeRequestData">
         <xsd:annotation/>
     </xsd:element>
-    <xsd:element name="MSGraphConnector__GetRangeResponse">
+    <xsd:element name="MSGraphConnector__GetDataRangeResponse">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="response" type="lib_MicrosoftExcel_ns:MSGraphConnector__GetRangeResponseData"/>
+                <xsd:element name="response" type="lib_MicrosoftExcel_ns:MSGraphConnector__GetDataRangeResponseData"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
-    <xsd:complexType name="MSGraphConnector__GetRangeResponseType">
+    <xsd:complexType name="MSGraphConnector__GetDataRangeResponseType">
         <xsd:sequence>
-            <xsd:element name="document" type="lib_MicrosoftExcel_ns:MSGraphConnector__GetRangeResponseData"/>
+            <xsd:element name="document" type="lib_MicrosoftExcel_ns:MSGraphConnector__GetDataRangeResponseData"/>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType name="MSGraphConnector__GetRangeRequestData">
+    <xsd:complexType name="MSGraphConnector__GetDataRangeRequestData">
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string">
                 <xsd:annotation>
@@ -299,7 +299,7 @@
         </xsd:sequence>
         <xsd:attribute default="object" name="type" type="xsd:string"/>
     </xsd:complexType>
-    <xsd:complexType name="MSGraphConnector__GetRangeResponseData">
+    <xsd:complexType name="MSGraphConnector__GetDataRangeResponseData">
         <xsd:sequence>
             <xsd:element minOccurs="0" name="object" type="lib_MicrosoftExcel_ns:MSGraphConnector_GetRange_document_objectType"/>
             <xsd:element minOccurs="0" name="error" type="lib_MicrosoftExcel_ns:ConvertigoError"/>
