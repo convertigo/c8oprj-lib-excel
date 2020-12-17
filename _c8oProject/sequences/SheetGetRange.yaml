@@ -28,6 +28,15 @@
           ↓name [variables.StepVariable-1608132498522]: 
           ↓range [variables.StepVariable-1608132498524]: 
           ↓itemPath [variables.StepVariable-1608132697372]: 
+        ↓Copy [steps.XMLCopyStep-1608196249478]: 
+          sourceDefinition: 
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: 1608132498520
+                - java.lang.String: 
+                  - ↑value: ./document/object
       ↓jElse [steps.ElseStep-1608188986076]: 
         ↓Call_Transaction [steps.TransactionStep-1608189097711]: 
           sourceTransaction: lib_MicrosoftExcel.MSGraphConnector.GetUsedRange
@@ -42,6 +51,15 @@
                     - ↑value: ./document/token/text()
           ↓name [variables.StepVariable-1608189097713]: 
           ↓itemPath [variables.StepVariable-1608189097715]: 
+        ↓Copy [steps.XMLCopyStep-1608196280110]: 
+          sourceDefinition: 
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+              - com.twinsoft.convertigo.beans.common.XMLVector: 
+                - java.lang.String: 
+                  - ↑value: 1608189097711
+                - java.lang.String: 
+                  - ↑value: ./document/object
   ↓Complex [steps.XMLComplexStep-1608137264462]: 
     nodeName: sheet
     ↓Complexh [steps.XMLComplexStep-1608137264465]: 
@@ -60,9 +78,9 @@
             - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
             - com.twinsoft.convertigo.beans.common.XMLVector: 
               - java.lang.String: 
-                - ↑value: 1608132498520
+                - ↑value: 1608189674834
               - java.lang.String: 
-                - ↑value: ./document/object/values/array[1]/value
+                - ↑value: ./object/values/array[1]/value
         ↓Complex [steps.XMLComplexStep-1608137264474]: 
           nodeName: def
           ↓Attribute [steps.XMLAttributeStep-1608137264477]: 
@@ -93,9 +111,9 @@
             - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
             - com.twinsoft.convertigo.beans.common.XMLVector: 
               - java.lang.String: 
-                - ↑value: 1608132498520
+                - ↑value: 1608189674834
               - java.lang.String: 
-                - ↑value: ./document/object/values/array[position() > 1]
+                - ↑value: ./object/values/array[position() > 1]
         ↓Complex [steps.XMLComplexStep-1608137264492]: 
           nodeName: row
           ↓Attribute [steps.XMLAttributeStep-1608137264495]: 
