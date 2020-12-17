@@ -11,6 +11,7 @@
           - ↑value: ./document/token
   ↓ComplexData [steps.XMLComplexStep-1608189674834]: 
     nodeName: data
+    output: false
     ↓jIfThenElse [steps.IfThenElseStep-1608188986072]: 
       condition: range != null && range.length != 0
       ↓jThen [steps.ThenStep-1608188986074]: 
@@ -29,6 +30,7 @@
           ↓range [variables.StepVariable-1608132498524]: 
           ↓itemPath [variables.StepVariable-1608132697372]: 
         ↓Copy [steps.XMLCopyStep-1608196249478]: 
+          output: false
           sourceDefinition: 
             - xmlizable: 
               - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
@@ -52,6 +54,7 @@
           ↓name [variables.StepVariable-1608189097713]: 
           ↓itemPath [variables.StepVariable-1608189097715]: 
         ↓Copy [steps.XMLCopyStep-1608196280110]: 
+          output: false
           sourceDefinition: 
             - xmlizable: 
               - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector

@@ -126,7 +126,7 @@ title: First page
       varValue: 
         - xmlizable: 
           - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:10
+          - MobileSmartSourceType: script:1000
     ↓rowSelection [mobile.components.UIControlVariable-1608140652145]: 
       comment: 'string: ''single'' (default) or ''multiple'''
       varValue: 
