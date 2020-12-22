@@ -1,5 +1,5 @@
 # lib_GoogleSheet
-This is the Microsoft Excel connector for Convertigo platform. Install this library to enable writing and reading from Microsoft Excel sheets on Office365 Cloud  for your Convertigo applications
+This is the Microsoft Excel connector for Convertigo platform. Install this library to enable reading from Microsoft Excel sheets on Office365 Cloud  for your Convertigo applications
 
 # Installation
 
@@ -29,7 +29,7 @@ Copy and save  the **Client ID** and if necessary the **Tenant ID** as you will 
 
 ## Configuring Convertigo Symbols
 
-__lib_MicrosoftExcel__ needs some symbols to be configured. You configure them trough the Web Console: **https://&lt;your site&gt;.convertigo.net/admin**, hit the ___symbols___ button to get to the symbol configuration page.
+__lib_MicrosoftExcel__ needs some symbols to be configured. You configure them through the Web Console: **https://&lt;your site&gt;.convertigo.net/admin**, hit the ___symbols___ button to get to the symbol configuration page.
 
 
 Symbol  | value
@@ -57,7 +57,7 @@ Authenticate   | This will authenticate you app to Microsoft AzureAd. A Microsof
 
 ## Sample Application
 
-You will find in this project a sample application using the Microsoft Excel Sheet Library, Use this as a reference and tutorial about using the library. This demonstrates :
+You will find in this project a sample application using the Microsoft Excel Sheet Library, use this as a reference and tutorial about using the library. This demonstrates :
 - Use of the **Authenticate** Shared Action
 - use of the **SheetGetRange** Sequence
 
