@@ -22,8 +22,9 @@ This connector uses the OAuth authentication protocol to exchange data with Micr
 * Connect to https://portal.azure.com/#blade/Microsoft_AAD_IAM/ActiveDirectoryMenuBlade/RegisteredApps
 * Click on "new registration"
 * Configure **Name** and **Account type**
-* Add the http://localhost:18080/convertigo/projects/lib_OAuth/getToken.html redirect URI with the **"Public client/native (mobile &desktop)"** type.  (Useful for Studio testing operations)
-* Add the https://c8ocloud.convertigo.net/convertigo/projects/lib_OAuth/getToken.html with the **"Public client/native (mobile &desktop)"** type. (useful for production operations)
+* Add the http://localhost:18080/convertigo/projects/lib_OAuth/getToken.html redirect URI with the **"Single-page application (SPA)"** type.  (Useful for Studio testing operations)
+* Add the https://c8ocloud.convertigo.net/convertigo/projects/lib_OAuth/getToken.html with the **"Single-page application (SPA)"** type. (useful for production operations)
+* In **Authentication** menu, check **Access tokens (used for implicit flows)** and **ID tokens (used for implicit and hybrid flows)**
 
 Copy and save  the **Client ID** and if necessary the **Tenant ID** as you will need these in the next steps.
 
@@ -43,7 +44,7 @@ __lib_MicrosoftExcel__ provides sequences you can call in your projects
 
 Sequence  | Action
 ------| ------
-SheetGetRange | Read a Range of values form a Google Sheet. <br>Takes 3 variables :<br>- name : the sheet name in a workbook (If not provided, the fisrt sheet in a workbook)<br >- range : the range of cells to retreive for ex: as A1:D10  (If not provided, all non empty cells in a sheet)<br >- itemPath : The path of the file in a OneDrive account.
+SheetGetRange | Read a Range of values form a Google Sheet. <br>Takes 3 variables :<br>- name : the sheet name in a workbook (If none provided, the first sheet in a workbook)<br >- range : the range of cells to retrieve for ex: as A1:D10  (If not provided, all non empty cells in a sheet)<br >- itemPath : The path of the file in a OneDrive account.
 
 These sequences will only work if you performed a OAuth Authentication to AzureAD first. To help you with this, the library provides a Shared action you can use in your Apps. 
 

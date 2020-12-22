@@ -53,11 +53,49 @@ title: First page
   comment: Page content
   tagName: ion-content
   ↓Form [mobile.components.UIForm-1608189222778]: 
-    ↓FormItem [mobile.components.UIDynamicElement-1608189144921]: 
+    ↓FormItem_name [mobile.components.UIDynamicElement-1608644654549]: 
+      beanData: '{"ionBean":"FormItem"}'
+      tagName: ion-item
+      ↓Label [mobile.components.UIDynamicElement-1608644654552]: 
+        beanData: '{"ionBean":"Label","Stacked":"plain:stacked"}'
+        tagName: ion-label
+        ↓Text [mobile.components.UIText-1608644654555]: 
+          textValue: 
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+              - MobileSmartSourceType: plain:Sheet name (first sheet if none provided)
+      ↓TextInput [mobile.components.UIDynamicElement-1608644654558]: 
+        beanData: |
+          '{
+           "ionBean": "Input",
+           "FormControlName": "plain:name",
+           "Value": "plain:data"
+          }'
+        tagName: ion-input
+    ↓FormItem_path [mobile.components.UIDynamicElement-1608644667009]: 
+      beanData: '{"ionBean":"FormItem"}'
+      tagName: ion-item
+      ↓Label [mobile.components.UIDynamicElement-1608644667012]: 
+        beanData: '{"ionBean":"Label","Stacked":"plain:stacked"}'
+        tagName: ion-label
+        ↓Text [mobile.components.UIText-1608644667015]: 
+          textValue: 
+            - xmlizable: 
+              - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+              - MobileSmartSourceType: plain:File path
+      ↓TextInput [mobile.components.UIDynamicElement-1608644667018]: 
+        beanData: |
+          '{
+           "ionBean": "Input",
+           "FormControlName": "plain:path",
+           "Value": "plain:Documents\/MOCK_DATA.xlsx"
+          }'
+        tagName: ion-input
+    ↓FormItem_range [mobile.components.UIDynamicElement-1608189144921]: 
       beanData: '{"ionBean":"FormItem"}'
       tagName: ion-item
       ↓Label [mobile.components.UIDynamicElement-1608189155321]: 
-        beanData: '{"ionBean":"Label"}'
+        beanData: '{"ionBean":"Label","Stacked":"plain:stacked"}'
         tagName: ion-label
         ↓Text [mobile.components.UIText-1608189163193]: 
           textValue: 
@@ -100,7 +138,7 @@ title: First page
           varValue: 
             - xmlizable: 
               - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-              - MobileSmartSourceType: plain:AAA
+              - MobileSmartSourceType: source:{"filter":"Form","project":"lib_MicrosoftExcel","input":"","model":{"data":[{"priority":1608189222778}],"path":"?.controls['name']?.value","prefix":"","suffix":"","custom":"","useCustom":false}}
         ↓range [mobile.components.UIControlVariable-1608135074084]: 
           comment: new variable
           varValue: 
@@ -112,80 +150,89 @@ title: First page
           varValue: 
             - xmlizable: 
               - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-              - MobileSmartSourceType: plain:tension.xlsx
-  ↓UseSharedComponent [mobile.components.UIUseShared-1608140613965]: 
-    sharedcomponent: lib_ExtendedComponents.MobileApplication.Application.agGrid
-    ↓pagination [mobile.components.UIControlVariable-1608140652141]: 
-      comment: 'boolean: true (default) or false'
-      varValue: 
+              - MobileSmartSourceType: source:{"filter":"Form","project":"lib_MicrosoftExcel","input":"","model":{"data":[{"priority":1608189222778}],"path":"?.controls['path']?.value","prefix":"","suffix":"","custom":"","useCustom":false}}
+  ↓Div [mobile.components.UIDynamicElement-1608652936473]: 
+    beanData: '{"ionBean":"DivTag"}'
+    tagName: div
+    ↓UseSharedComponent [mobile.components.UIUseShared-1608140613965]: 
+      sharedcomponent: lib_ExtendedComponents.MobileApplication.Application.agGrid
+      ↓pagination [mobile.components.UIControlVariable-1608140652141]: 
+        comment: 'boolean: true (default) or false'
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: script:true
+      ↓paginationPageSize [mobile.components.UIControlVariable-1608140652143]: 
+        comment: 'integer: 10 by default'
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: script:1000
+      ↓rowSelection [mobile.components.UIControlVariable-1608140652145]: 
+        comment: 'string: ''single'' (default) or ''multiple'''
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: script:'single'
+      ↓rowDeselection [mobile.components.UIControlVariable-1608140652147]: 
+        comment: 'boolean: true (default) or false'
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: script:true
+      ↓defaultColDef [mobile.components.UIControlVariable-1608140652149]: 
+        comment: 'default is {hide: false, editable: true, sortable: true, resizable: true, filter: true, checkboxSelection: false, singleClickEdit: false}'
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: 'script:{hide: false, editable: true, sortable: true, resizable: true, filter: true, checkboxSelection: false, singleClickEdit: false}'
+      ↓columnDefs [mobile.components.UIControlVariable-1608140652151]: 
+        comment: 'Array of columnDef {headerName: ''headerName'', field: ''fieldName''} objects'
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: source:{"filter":"Sequence","project":"lib_MicrosoftExcel","input":"","model":{"data":[{"sequence":"lib_MicrosoftExcel.SheetGetRange","marker":""}],"path":"?.sheet?.columns","prefix":"","suffix":"","custom":"","useCustom":false}}
+      ↓rowData [mobile.components.UIControlVariable-1608140652153]: 
+        comment: 'Array of row { fieldName1: ''value1'', fieldName2: ''value2'', fieldName3: true, ...} objects'
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: source:{"filter":"Sequence","project":"lib_MicrosoftExcel","input":"","model":{"data":[{"sequence":"lib_MicrosoftExcel.SheetGetRange","marker":""}],"path":"?.sheet?.data","prefix":"","suffix":"","custom":"","useCustom":false}}
+      ↓width [mobile.components.UIControlVariable-1608140652155]: 
+        comment: width value in % or px
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: script:'100%'
+      ↓height [mobile.components.UIControlVariable-1608140652157]: 
+        comment: height is 'auto' or value in % or px
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: script:'auto'
+      ↓class [mobile.components.UIControlVariable-1608140652159]: 
+        comment: |
+          'One of the themes provided here :
+          
+          https://www.ag-grid.com/javascript-grid-themes-provided/
+          
+          Also be shure to add the theme in the Theme object as :
+          
+          @import "../../node_modules/ag-grid-community/dist/styles/ag-theme-balham-dark/sass/ag-theme-balham-dark.scss";
+          
+          
+          
+          '
+        varValue: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
+            - MobileSmartSourceType: script:'ag-theme-balham'
+    ↓Attr [mobile.components.UIAttribute-1608652953190]: 
+      attrName: '*ngIf'
+      attrValue: 
         - xmlizable: 
           - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:true
-    ↓paginationPageSize [mobile.components.UIControlVariable-1608140652143]: 
-      comment: 'integer: 10 by default'
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:1000
-    ↓rowSelection [mobile.components.UIControlVariable-1608140652145]: 
-      comment: 'string: ''single'' (default) or ''multiple'''
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:'single'
-    ↓rowDeselection [mobile.components.UIControlVariable-1608140652147]: 
-      comment: 'boolean: true (default) or false'
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:true
-    ↓defaultColDef [mobile.components.UIControlVariable-1608140652149]: 
-      comment: 'default is {hide: false, editable: true, sortable: true, resizable: true, filter: true, checkboxSelection: false, singleClickEdit: false}'
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: 'script:{hide: false, editable: true, sortable: true, resizable: true, filter: true, checkboxSelection: false, singleClickEdit: false}'
-    ↓columnDefs [mobile.components.UIControlVariable-1608140652151]: 
-      comment: 'Array of columnDef {headerName: ''headerName'', field: ''fieldName''} objects'
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: source:{"filter":"Sequence","project":"lib_MicrosoftExcel","input":"","model":{"data":[{"sequence":"lib_MicrosoftExcel.SheetGetRange","marker":""}],"path":"?.sheet?.columns","prefix":"","suffix":"","custom":"","useCustom":false}}
-    ↓rowData [mobile.components.UIControlVariable-1608140652153]: 
-      comment: 'Array of row { fieldName1: ''value1'', fieldName2: ''value2'', fieldName3: true, ...} objects'
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: source:{"filter":"Sequence","project":"lib_MicrosoftExcel","input":"","model":{"data":[{"sequence":"lib_MicrosoftExcel.SheetGetRange","marker":""}],"path":"?.sheet?.data","prefix":"","suffix":"","custom":"","useCustom":false}}
-    ↓width [mobile.components.UIControlVariable-1608140652155]: 
-      comment: width value in % or px
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:'100%'
-    ↓height [mobile.components.UIControlVariable-1608140652157]: 
-      comment: height is 'auto' or value in % or px
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:'auto'
-    ↓class [mobile.components.UIControlVariable-1608140652159]: 
-      comment: |
-        'One of the themes provided here :
-        
-        https://www.ag-grid.com/javascript-grid-themes-provided/
-        
-        Also be shure to add the theme in the Theme object as :
-        
-        @import "../../node_modules/ag-grid-community/dist/styles/ag-theme-balham-dark/sass/ag-theme-balham-dark.scss";
-        
-        
-        
-        '
-      varValue: 
-        - xmlizable: 
-          - ↑classname: com.twinsoft.convertigo.beans.mobile.components.MobileSmartSourceType
-          - MobileSmartSourceType: script:'ag-theme-balham'
+          - MobileSmartSourceType: plain:listen(['lib_MicrosoftExcel.SheetGetRange'])?.sheet
 ↓Footer [mobile.components.UIDynamicElement-1491634242460]: 
   beanData: '{"ionBean":"Footer"}'
   comment: Page footer
