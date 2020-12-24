@@ -1,8 +1,8 @@
 ↑convertigo: 7.9.0.m006
 ↓lib_MicrosoftExcel [core.Project]: 
-  comment: Convertigo Mobile builder Project
+  comment: The Microsoft Excel Office 365 connector for Convertigo
   corsOrigin: =Origin
-  version: 1.0
+  version: 1.1
   ↓MSGraphConnector [connectors.HttpConnector]: 🗏 connectors/MSGraphConnector.yaml
   ↓void [connectors.SqlConnector]: 🗏 connectors/void.yaml
   ↓checkAccessToken [sequences.GenericSequence]: 🗏 sequences/checkAccessToken.yaml
