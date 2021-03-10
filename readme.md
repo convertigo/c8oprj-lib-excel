@@ -1,4 +1,4 @@
-# lib_GoogleSheet
+# lib_MicrosoftExcel
 This is the Microsoft Excel connector for Convertigo platform. Install this library to enable reading from Microsoft Excel sheets on Office365 Cloud  for your Convertigo applications
 
 # Installation
