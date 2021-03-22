@@ -7,7 +7,7 @@ This is the Microsoft Excel connector for Convertigo platform. Install this libr
 
 * In the Dialog 'Project remote URL' field Paste :
 
-        lib_MicrosoftExcel=https://github.com/convertigo/c8oprj-lib-excel.git
+        lib_MicrosoftExcel=https://github.com/convertigo/c8oprj-lib-excel.git:branch=7.9.0
 
 * And click the 'Finish' button
 * This will also automatically import the lib_OAuth project
@@ -47,18 +47,3 @@ Sequence  | Action
 SheetGetRange | Read a Range of values form a Google Sheet. <br>Takes 3 variables :<br>- name : the sheet name in a workbook (If none provided, the first sheet in a workbook)<br >- range : the range of cells to retrieve for ex: as A1:D10  (If not provided, all non empty cells in a sheet)<br >- itemPath : The path of the file in a OneDrive account.
 
 These sequences will only work if you performed a OAuth Authentication to AzureAD first. To help you with this, the library provides a Shared action you can use in your Apps. 
-
-## Shared Actions
-
-In order to authenticate with Microsoft Azure AD and access the availables documents in Microsoft OneDrive , the library provides a Shared Action you can use in your client apps.
-
-Shared Action  | Usage
-------| ------
-Authenticate   | This will authenticate you app to Microsoft AzureAd. A Microsoft popup login page will appear to log you in. 
-
-## Sample Application
-
-You will find in this project a sample application using the Microsoft Excel Sheet Library, use this as a reference and tutorial about using the library. This demonstrates :
-- Use of the **Authenticate** Shared Action
-- use of the **SheetGetRange** Sequence
-
