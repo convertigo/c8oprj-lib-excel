@@ -1,3 +1,4 @@
+↑default: true
 baseDir: /v1.0/me
 https: true
 port: 443
