@@ -5,14 +5,18 @@ port: 443
 server: graph.microsoft.com
 ↓Default_transaction [transactions.HttpTransaction]: 
   ↑default: true
+  accessibility: Public
 ↓DriveSearchFiles [transactions.JsonHttpTransaction]: 
+  accessibility: Public
   subDir: /root/search(q='.xlsx')?select=name,id,webUrl
 ↓GetDataRange [transactions.JsonHttpTransaction]: 
+  accessibility: Public
   subDir: /drive/root:/{itemPath}:/workbook/worksheets/{name}/range(address='{range}')
   ↓name [variables.RequestableHttpVariable-1608125492523]: 
   ↓range [variables.RequestableHttpVariable-1608132385874]: 
   ↓itemPath [variables.RequestableHttpVariable-1608132648207]: 
 ↓GetUsedRange [transactions.JsonHttpTransaction]: 
+  accessibility: Public
   subDir: /drive/root:/{itemPath}:/workbook/worksheets/{name}/usedRange
   ↓name [variables.RequestableHttpVariable-1608189023339]: 
   ↓itemPath [variables.RequestableHttpVariable-1608189023345]: 

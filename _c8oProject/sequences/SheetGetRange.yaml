@@ -1,3 +1,4 @@
+comment: Read a Range of values from an Office 365 Sheet.
 ↓Call_Sequence [steps.SequenceStep-1608132452375]: 
   sourceSequence: lib_MicrosoftExcel.checkAccessToken
 ↓IfExist [steps.IfExistStep-1608132470039]: 
@@ -157,5 +158,8 @@
                 expression: columns[index]
                 nodeName: originalKeyName
 ↓name [variables.RequestableVariable-1608135058427]: 
+  comment: The sheet name in a workbook (If none provided, the first sheet in a workbook)
 ↓range [variables.RequestableVariable-1608135058429]: 
+  comment: 'The range of cells to retrieve for ex: as A1:D10 (If not provided, all non empty cells in a sheet)'
 ↓itemPath [variables.RequestableVariable-1608135058431]: 
+  comment: The path of the file to import.

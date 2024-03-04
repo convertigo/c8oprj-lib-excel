@@ -142,3 +142,4 @@ comment: |
       nodeName: login
       nodeText: ko
 ↓access_token [variables.RequestableVariable-1608054852537]: 
+  comment: Access Token
