@@ -7,7 +7,10 @@ comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of th
     if(itemPath && itemPath != ""){
     	let file = new java.io.File(itemPath);
     	let baData = org.apache.commons.io.FileUtils.readFileToByteArray(file);
-    	let b64 = ""+com.twinsoft.convertigo.engine.util.Base64.encodeBytes(baData)
+    	let b64 = ""+com.twinsoft.convertigo.engine.util.Base64.encodeBytes(baData);
+    	var raw_data = [];
+    	var sheet_name;
+    	var sheet_range;
     	
     	const workbook = XLSX.read(b64);
     	
@@ -17,18 +20,34 @@ comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of th
     		sheet_name = workbook.SheetNames[0];
     	}
     	const worksheet = workbook.Sheets[sheet_name];
-    	let opts = {};
     	
-    	if(range && range != ""){
-    		sheet_range = XLSX.utils.decode_range(range);
-    	} else {
-    		sheet_range = worksheet[''!ref''];
+    	if(worksheet != null){
+    		let opts = {};
+    		
+    		if(range && range != ""){
+    			sheet_range = XLSX.utils.decode_range(range);
+    		} else {
+    			sheet_range = worksheet[''!ref''];
+    		}
+    		
+    		opts["range"] = sheet_range;
+    		
+    		raw_data = XLSX.utils.sheet_to_json(worksheet, opts);
     	}
-    	
-    	opts["range"] = sheet_range;
-    	
-    	const raw_data = XLSX.utils.sheet_to_json(worksheet, opts);
     }'
+↓ExcelSheet [steps.JsonToXmlStep-1709576439704]: 
+  jsonObject: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: JS
+        - →→: raw_data
+  key: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: PLAIN
+        - →→: ExcelSheet
 ↓name [variables.RequestableVariable-1708681503651]: 
   comment: The sheet name in a workbook (If none provided, the first sheet in a workbook)
 ↓range [variables.RequestableVariable-1709565345884]: 

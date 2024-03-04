@@ -30,7 +30,7 @@
     lib_oauth.azuread.clientid | The **client ID** value you copied in the previous step
     lib_oauth.azuread.tenantid | the **tenenant id** value you copied in the previous step. This is optional and should be used only if you want to restrict to a specific Azure tenant.'
   corsOrigin: =Origin
-  version: 1.2
+  version: 1.2.1
   ↓MSGraphConnector [connectors.HttpConnector]: 🗏 connectors/MSGraphConnector.yaml
   ↓checkAccessToken [sequences.GenericSequence]: 🗏 sequences/checkAccessToken.yaml
   ↓loginAzureAdWithAccessToken [sequences.GenericSequence]: 🗏 sequences/loginAzureAdWithAccessToken.yaml
