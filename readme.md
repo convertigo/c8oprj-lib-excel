@@ -3,7 +3,7 @@
 
 # lib_MicrosoftExcel
 
-The Microsoft Excel connector for Convertigo
+This is the Microsoft Excel connector for Convertigo platform. Install this library to enable writing and reading from Microsoft Excel sheets on Office365 Cloud or local XSLX files for your Convertigo applications.
 
 # Usage for Office 365
 
@@ -31,6 +31,10 @@ Symbol  | value
 ------| ------
 lib_oauth.azuread.clientid | The **client ID** value you copied in the previous step
 lib_oauth.azuread.tenantid | the **tenenant id** value you copied in the previous step. This is optional and should be used only if you want to restrict to a specific Azure tenant.
+
+# Usage for local Excel files
+
+To upload an Excel file and output an XML or JSON structure use the sequence [SheetGetRangeFile](#sheetgetrangefile)
 
 
 For more technical informations : [documentation](./project.md)
@@ -134,10 +138,10 @@ Imports an xlsx file ( from "itemPath") and outputs a JSON object of the "name" 
 <td>itemPath</td><td>The local path of the file to import.</td>
 </tr>
 <tr>
-<td>name</td><td>The sheet name in a workbook (If none provided, the first sheet in a workbook)</td>
+<td>name</td><td>The sheet name in the workbook (If not provided, the first sheet in a workbook). Can not be empty string.</td>
 </tr>
 <tr>
-<td>range</td><td>The range of cells to retrieve for ex: as A1:D10 (If not provided, all non empty cells in a sheet)</td>
+<td>range</td><td>The range of cells to retrieve for ex: "A1:D10" (If not provided or empty string, all non empty cells in a sheet)</td>
 </tr>
 </table>
 

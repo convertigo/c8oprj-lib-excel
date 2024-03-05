@@ -4,6 +4,10 @@ comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of th
     'include(''SheetJS/Shim.js'')
     include(''SheetJS/SheetJS.js'')
     
+    error = false;
+    err_msg = "";
+    err_code = "-1";
+    
     if(itemPath && itemPath != ""){
     	let file = new java.io.File(itemPath);
     	let baData = org.apache.commons.io.FileUtils.readFileToByteArray(file);
@@ -12,29 +16,77 @@ comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of th
     	var sheet_name;
     	var sheet_range;
     	
-    	const workbook = XLSX.read(b64);
-    	
-    	if(name && name != ""){
-    		sheet_name = name;
-    	} else {
-    		sheet_name = workbook.SheetNames[0];
+    	try {
+    		const workbook = XLSX.read(b64);
+    	} catch(e){
+    		error = true;
+    		err_msg = "Can not read file";
+    		err_code = "-2";
     	}
-    	const worksheet = workbook.Sheets[sheet_name];
     	
-    	if(worksheet != null){
-    		let opts = {};
-    		
-    		if(range && range != ""){
-    			sheet_range = XLSX.utils.decode_range(range);
+    	if(!error){
+    		if(name != null){
+    			if(name != ""){
+    				sheet_name = name;
+    			} else {
+    				error = true;
+    				err_msg = "Sheet name can not be empty";
+    				err_code = "-3";
+    			}
+    			
     		} else {
-    			sheet_range = worksheet[''!ref''];
+    			sheet_name = workbook.SheetNames[0];
     		}
     		
-    		opts["range"] = sheet_range;
-    		
-    		raw_data = XLSX.utils.sheet_to_json(worksheet, opts);
+    		if(!error){
+    			const worksheet = workbook.Sheets[sheet_name];
+    			
+    			if(worksheet != null){
+    				let opts = {};
+    				
+    				if(range && range != ""){
+    					sheet_range = XLSX.utils.decode_range(range);
+    				} else {
+    					sheet_range = worksheet[''!ref''];
+    				}
+    				
+    				opts["range"] = sheet_range;
+    				
+    				raw_data = XLSX.utils.sheet_to_json(worksheet, opts);
+    			} else {
+    				error = true;
+    				err_msg = "No Sheet named ''" + sheet_name + "'' found";
+    				err_code = "-4";
+    			}
+    		}
     	}
+    } else {
+    	error = true;
+    	err_msg = "No file provided";
+    	err_code = "-1";
     }'
+↓jIf [steps.IfStep-1709633601914]: 
+  condition: error
+  ↓Error_structure [steps.XMLErrorStep-1709633634457]: 
+    code: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+        - SmartType: 
+          - ↑mode: JS
+          - →→: err_code
+    details: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+        - SmartType: 
+          - ↑mode: JS
+          - →→: err_msg
+    message: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+        - SmartType: 
+          - ↑mode: PLAIN
+          - →→: An error occured
+  ↓Return [steps.ReturnStep-1709633618808]: 
 ↓ExcelSheet [steps.JsonToXmlStep-1709576439704]: 
   jsonObject: 
     - xmlizable: 
@@ -49,9 +101,9 @@ comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of th
         - ↑mode: PLAIN
         - →→: ExcelSheet
 ↓name [variables.RequestableVariable-1708681503651]: 
-  comment: The sheet name in a workbook (If none provided, the first sheet in a workbook)
+  comment: The sheet name in the workbook (If not provided, the first sheet in a workbook). Can not be empty string.
 ↓range [variables.RequestableVariable-1709565345884]: 
-  comment: 'The range of cells to retrieve for ex: as A1:D10 (If not provided, all non empty cells in a sheet)'
+  comment: 'The range of cells to retrieve for ex: "A1:D10" (If not provided or empty string, all non empty cells in a sheet)'
 ↓itemPath [variables.RequestableVariable-1708681361757]: 
   comment: The local path of the file to import.
   isFileUpload: true

@@ -1,7 +1,7 @@
 ↑convertigo: 8.0.0.m006
 ↓lib_MicrosoftExcel [core.Project]: 
   comment: |
-    'The Microsoft Excel connector for Convertigo
+    'This is the Microsoft Excel connector for Convertigo platform. Install this library to enable writing and reading from Microsoft Excel sheets on Office365 Cloud or local XSLX files for your Convertigo applications.
     
     # Usage for Office 365
     
@@ -28,9 +28,13 @@
     Symbol  | value
     ------| ------
     lib_oauth.azuread.clientid | The **client ID** value you copied in the previous step
-    lib_oauth.azuread.tenantid | the **tenenant id** value you copied in the previous step. This is optional and should be used only if you want to restrict to a specific Azure tenant.'
+    lib_oauth.azuread.tenantid | the **tenenant id** value you copied in the previous step. This is optional and should be used only if you want to restrict to a specific Azure tenant.
+    
+    # Usage for local Excel files
+    
+    To upload an Excel file and output an XML or JSON structure use the sequence [SheetGetRangeFile](#sheetgetrangefile)'
   corsOrigin: =Origin
-  version: 1.2.1
+  version: 1.2.2
   ↓MSGraphConnector [connectors.HttpConnector]: 🗏 connectors/MSGraphConnector.yaml
   ↓checkAccessToken [sequences.GenericSequence]: 🗏 sequences/checkAccessToken.yaml
   ↓loginAzureAdWithAccessToken [sequences.GenericSequence]: 🗏 sequences/loginAzureAdWithAccessToken.yaml
