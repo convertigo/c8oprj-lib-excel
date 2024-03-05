@@ -32,9 +32,12 @@
     
     # Usage for local Excel files
     
-    To upload an Excel file and output an XML or JSON structure use the sequence [SheetGetRangeFile](#sheetgetrangefile)'
+    To upload an Excel file and output an XML or JSON structure use the sequence [SheetGetRangeFile](#sheetgetrangefile)
+    
+    # Table Of Content
+    '
   corsOrigin: =Origin
-  version: 1.2.2
+  version: 1.2.3
   ↓MSGraphConnector [connectors.HttpConnector]: 🗏 connectors/MSGraphConnector.yaml
   ↓checkAccessToken [sequences.GenericSequence]: 🗏 sequences/checkAccessToken.yaml
   ↓loginAzureAdWithAccessToken [sequences.GenericSequence]: 🗏 sequences/loginAzureAdWithAccessToken.yaml
