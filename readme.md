@@ -45,6 +45,7 @@ For more technical informations : [documentation](./project.md)
 - [Installation](#installation)
 - [Sequences](#sequences)
     - [checkAccessToken](#checkaccesstoken)
+    - [ExportDataToSheet](#exportdatatosheet)
     - [loginAzureAdWithAccessToken](#loginazureadwithaccesstoken)
     - [SheetGetRange](#sheetgetrange)
     - [SheetGetRangeFile](#sheetgetrangefile)
@@ -85,6 +86,47 @@ Checks is a valid access token is held by the current users' session for AzureAD
 This as to be called by client apps to decide whenever or not they have to display an OAuth login screen
 
 
+
+### ExportDataToSheet
+
+Use to export data to Calc Sheet file. Uses the SheetJS CE framework.
+
+**Output**
+
+<table>
+<tr>
+<th>name</th><th>comment</th>
+</tr>
+<tr>
+<td>file</td><td>local_path -> Server local file path.<br> url_path -> Server file path url.</td>
+</tr>
+<tr>
+<td>success</td><td>true/false</td>
+</tr>
+<tr>
+<td>error</td><td>Error message.</td>
+</tr>
+</table>
+
+**variables**
+
+<table>
+<tr>
+<th>name</th><th>comment</th>
+</tr>
+<tr>
+<td>book_type</td><td>Type of workbook to export to (supports XLSX and ODS).</td>
+</tr>
+<tr>
+<td>data</td><td>Data source. Can be a Convertigo Complex variable or a JSON String. It must be an array of objects.</td>
+</tr>
+<tr>
+<td>file_name</td><td>Name of the output file with extension (should be .xlsx).</td>
+</tr>
+<tr>
+<td>sheet_name</td><td>Name of the XLSX Sheet.</td>
+</tr>
+</table>
 
 ### loginAzureAdWithAccessToken
 

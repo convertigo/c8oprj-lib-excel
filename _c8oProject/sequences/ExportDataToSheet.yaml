@@ -1,0 +1,158 @@
+comment: |
+  'Use to export data to Calc Sheet file. Uses the SheetJS CE framework.
+  
+  **Output**
+  
+  <table>
+  <tr>
+  <th>name</th><th>comment</th>
+  </tr>
+  <tr>
+  <td>file</td><td>local_path -> Server local file path.<br> url_path -> Server file path url.</td>
+  </tr>
+  <tr>
+  <td>success</td><td>true/false</td>
+  </tr>
+  <tr>
+  <td>error</td><td>Error message.</td>
+  </tr>
+  </table>'
+↓inputVars [steps.InputVariablesStep-1718724633211]: 
+↓check_data [steps.SimpleStep-1718724633214]: 
+  expression:  try {jsonVar = JSON.parse(data)} catch (e){}
+↓jIf [steps.IfStep-1718724633217]: 
+  condition: typeof jsonVar == "undefined"
+  ↓data [steps.JsonSourceStep-1718724633220]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1718724633211
+          - java.lang.String: 
+            - ↑value: ./data/*
+    variableName: jsonVar
+↓write_xlsx [steps.SimpleStep-1718724633223]: 
+  expression: |
+    'include(''SheetJS/Shim.js'');
+    include(''SheetJS/SheetJS.js'');
+    
+    /*
+    var data = [
+        {"name":"John", "city": "Seattle"},
+        {"name":"Mike", "city": "Los Angeles"},
+        {"name":"Zach", "city": "New York"}
+    ];
+    */
+    
+    is_success = true;
+    error_msg = "";
+    book_type = (book_type !== null) && book_type != "" ? book_type : "xlsx";
+    file_name = (file_name !== null) && file_name != "" ? file_name : "output." + book_type;
+    var output_file = (context.getProjectDirectory()).replace("\\", "/") + "/" + file_name;
+    var url_file = context.getProjectUrl() + file_name;
+    
+    try {
+    	/* make the worksheet */
+    	var ws = XLSX.utils.json_to_sheet(jsonVar);
+    	
+    	/* add to workbook */
+    	var wb = XLSX.utils.book_new();
+    	sheet_name = (sheet_name !== null) && sheet_name != "" ? sheet_name : "Sheet";
+    	XLSX.utils.book_append_sheet(wb, ws, sheet_name);
+    	
+    	/* generate an XLSX file */
+    	var output = XLSX.write(wb, {bookType: book_type, type: "base64"});
+    	ba = com.twinsoft.convertigo.engine.util.Base64.decode(output);
+    	org.apache.commons.io.FileUtils.writeByteArrayToFile(new java.io.File(output_file), ba);
+    } catch(e){
+    	is_success = false;
+    	error_msg = ""+e;
+    	log.warn(""+e);
+    }'
+↓jIfThenElse [steps.IfThenElseStep-1718724633226]: 
+  condition: is_success
+  ↓jThen [steps.ThenStep-1718724633229]: 
+    ↓file [steps.JsonObjectStep-1718724633232]: 
+      key: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: PLAIN
+            - →→: file
+      ↓local_path [steps.JsonFieldStep-1718724633235]: 
+        key: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+            - SmartType: 
+              - ↑mode: PLAIN
+              - →→: local_path
+        value: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+            - SmartType: 
+              - ↑mode: JS
+              - →→: output_file
+      ↓url_path [steps.JsonFieldStep-1718724633238]: 
+        key: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+            - SmartType: 
+              - ↑mode: PLAIN
+              - →→: url_path
+        value: 
+          - xmlizable: 
+            - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+            - SmartType: 
+              - ↑mode: JS
+              - →→: url_file
+  ↓jElse [steps.ElseStep-1718724633241]: 
+    ↓error [steps.JsonFieldStep-1718724633244]: 
+      key: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: PLAIN
+            - →→: error
+      value: 
+        - xmlizable: 
+          - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+          - SmartType: 
+            - ↑mode: JS
+            - →→: error_msg
+↓success [steps.JsonFieldStep-1718724633247]: 
+  key: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: PLAIN
+        - →→: success
+  value: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: JS
+        - →→: is_success
+↓data [variables.RequestableVariable-1718724633250]: 
+  comment: Data source. Can be a Convertigo Complex variable or a JSON String. It must be an array of objects.
+↓file_name [variables.RequestableVariable-1718724633253]: 
+  comment: Name of the output file with extension (should be .xlsx).
+↓sheet_name [variables.RequestableVariable-1718724633256]: 
+  comment: Name of the XLSX Sheet.
+↓book_type [variables.RequestableVariable-1718724633259]: 
+  comment: Type of workbook to export to (supports XLSX and ODS).
+  value: xlsx
+↓Test_Case [core.TestCase]: 
+  ↓data [variables.TestCaseVariable-1718724633263]: 
+    value: |
+      '[
+          {"name":"John", "city": "Seattle"},
+          {"name":"Mike", "city": "Los Angeles"},
+          {"name":"Zach", "city": "New York"}
+      ]'
+  ↓file_name [variables.TestCaseVariable-1718724633266]: 
+    value: employees.xlsx
+  ↓sheet_name [variables.TestCaseVariable-1718724633269]: 
+    value: Employees
+  ↓book_type [variables.TestCaseVariable-1718724633272]: 
+    value: xlsx

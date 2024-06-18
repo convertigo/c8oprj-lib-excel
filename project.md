@@ -173,6 +173,77 @@ This as to be called by client apps to decide whenever or not they have to displ
 
 </p></blockquote></details>
 
+<details><summary><b>ExportDataToSheet</b> : Use to export data to Calc Sheet file</summary><blockquote><p>
+
+
+## ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/sequences/images/genericsequence_color_16x16.png?raw=true "GenericSequence") ExportDataToSheet
+
+Use to export data to Calc Sheet file. Uses the SheetJS CE framework.
+
+**Output**
+
+<table>
+<tr>
+<th>name</th><th>comment</th>
+</tr>
+<tr>
+<td>file</td><td>local_path -> Server local file path.<br> url_path -> Server file path url.</td>
+</tr>
+<tr>
+<td>success</td><td>true/false</td>
+</tr>
+<tr>
+<td>error</td><td>Error message.</td>
+</tr>
+</table>
+
+<span style="color:DarkGoldenRod">Variables</span>
+
+<table>
+<tr>
+<th>
+name
+</th>
+<th>
+comment
+</th>
+</tr>
+<tr>
+<td>
+<img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;book_type
+</td>
+<td>
+Type of workbook to export to (supports XLSX and ODS).
+</td>
+</tr>
+<tr>
+<td>
+<img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;data
+</td>
+<td>
+Data source. Can be a Convertigo Complex variable or a JSON String. It must be an array of objects.
+</td>
+</tr>
+<tr>
+<td>
+<img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;file_name
+</td>
+<td>
+Name of the output file with extension (should be .xlsx).
+</td>
+</tr>
+<tr>
+<td>
+<img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;sheet_name
+</td>
+<td>
+Name of the XLSX Sheet.
+</td>
+</tr>
+</table>
+
+</p></blockquote></details>
+
 <details><summary><b>loginAzureAdWithAccessToken</b> : Perform the OAuth flow for AzureAD</summary><blockquote><p>
 
 

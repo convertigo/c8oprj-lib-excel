@@ -37,9 +37,10 @@
     # Table Of Content
     '
   corsOrigin: =Origin
-  version: 1.2.3
+  version: 1.2.4
   ↓MSGraphConnector [connectors.HttpConnector]: 🗏 connectors/MSGraphConnector.yaml
   ↓checkAccessToken [sequences.GenericSequence]: 🗏 sequences/checkAccessToken.yaml
+  ↓ExportDataToSheet [sequences.GenericSequence]: 🗏 sequences/ExportDataToSheet.yaml
   ↓loginAzureAdWithAccessToken [sequences.GenericSequence]: 🗏 sequences/loginAzureAdWithAccessToken.yaml
   ↓SheetGetRange [sequences.GenericSequence]: 🗏 sequences/SheetGetRange.yaml
   ↓SheetGetRangeFile [sequences.GenericSequence]: 🗏 sequences/SheetGetRangeFile.yaml
