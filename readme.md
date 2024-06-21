@@ -91,7 +91,7 @@ This as to be called by client apps to decide whenever or not they have to displ
 
 ### ExportDataToSheet
 
-Use to export data to Calc Sheet file. Uses the SheetJS CE framework.
+Use to export data to various file format (txt, csv, xlsx, ods...). Uses the SheetJS CE framework.
 
 **Output**
 
@@ -117,16 +117,16 @@ Use to export data to Calc Sheet file. Uses the SheetJS CE framework.
 <th>name</th><th>comment</th>
 </tr>
 <tr>
-<td>book_type</td><td>Type of workbook to export to (supports XLSX and ODS).</td>
+<td>book_type</td><td>Type of workbook to export to. Default is XLSX.</td>
 </tr>
 <tr>
 <td>data</td><td>Data source. Can be a Convertigo Complex variable or a JSON String. It must be an array of objects.</td>
 </tr>
 <tr>
-<td>file_name</td><td>Name of the output file with extension (should be .xlsx).</td>
+<td>file_name</td><td>Name of the output file with extension.</td>
 </tr>
 <tr>
-<td>sheet_name</td><td>Name of the XLSX Sheet.</td>
+<td>sheet_name</td><td>Name of the XLSX Sheet if applicable.</td>
 </tr>
 </table>
 

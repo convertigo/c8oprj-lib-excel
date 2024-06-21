@@ -175,12 +175,12 @@ This as to be called by client apps to decide whenever or not they have to displ
 
 </p></blockquote></details>
 
-<details><summary><b>ExportDataToSheet</b> : Use to export data to Calc Sheet file</summary><blockquote><p>
+<details><summary><b>ExportDataToSheet</b> : Use to export data to various file format (txt, csv, xlsx, ods</summary><blockquote><p>
 
 
 ## ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/sequences/images/genericsequence_color_16x16.png?raw=true "GenericSequence") ExportDataToSheet
 
-Use to export data to Calc Sheet file. Uses the SheetJS CE framework.
+Use to export data to various file format (txt, csv, xlsx, ods...). Uses the SheetJS CE framework.
 
 **Output**
 
@@ -215,7 +215,7 @@ comment
 <img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;book_type
 </td>
 <td>
-Type of workbook to export to (supports XLSX and ODS).
+Type of workbook to export to. Default is XLSX.
 </td>
 </tr>
 <tr>
@@ -231,7 +231,7 @@ Data source. Can be a Convertigo Complex variable or a JSON String. It must be a
 <img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;file_name
 </td>
 <td>
-Name of the output file with extension (should be .xlsx).
+Name of the output file with extension.
 </td>
 </tr>
 <tr>
@@ -239,7 +239,7 @@ Name of the output file with extension (should be .xlsx).
 <img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;sheet_name
 </td>
 <td>
-Name of the XLSX Sheet.
+Name of the XLSX Sheet if applicable.
 </td>
 </tr>
 </table>

@@ -39,7 +39,7 @@
     # Table Of Content
     '
   corsOrigin: =Origin
-  version: 1.2.4
+  version: 1.2.5
   ↓MSGraphConnector [connectors.HttpConnector]: 🗏 connectors/MSGraphConnector.yaml
   ↓checkAccessToken [sequences.GenericSequence]: 🗏 sequences/checkAccessToken.yaml
   ↓ExportDataToSheet [sequences.GenericSequence]: 🗏 sequences/ExportDataToSheet.yaml

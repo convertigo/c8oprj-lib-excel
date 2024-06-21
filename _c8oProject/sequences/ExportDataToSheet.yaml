@@ -1,5 +1,5 @@
 comment: |
-  'Use to export data to Calc Sheet file. Uses the SheetJS CE framework.
+  'Use to export data to various file format (txt, csv, xlsx, ods...). Uses the SheetJS CE framework.
   
   **Output**
   
@@ -32,6 +32,126 @@ comment: |
           - java.lang.String: 
             - ↑value: ./data/*
     variableName: jsonVar
+↓booktypes [steps.SimpleStep-1718963569766]: 
+  expression: |
+    'var book_types = {
+      "xlsx": {
+        "extension": ".xlsx",
+        "sheets": "multi",
+        "Description": "Excel 2007+ XML Format"
+      },
+      "xlsm": {
+        "extension": ".xlsm",
+        "sheets": "multi",
+        "Description": "Excel 2007+ Macro XML Format"
+      },
+      "xlsb": {
+        "extension": ".xlsb",
+        "sheets": "multi",
+        "Description": "Excel 2007+ Binary Format"
+      },
+      "biff8": {
+        "extension": ".xls",
+        "sheets": "multi",
+        "Description": "Excel 97-2004 Workbook Format"
+      },
+      "biff5": {
+        "extension": ".xls",
+        "sheets": "multi",
+        "Description": "Excel 5.0/95 Workbook Format"
+      },
+      "biff4": {
+        "extension": ".xls",
+        "sheets": "single",
+        "Description": "Excel 4.0 Worksheet Format"
+      },
+      "biff3": {
+        "extension": ".xls",
+        "sheets": "single",
+        "Description": "Excel 3.0 Worksheet Format"
+      },
+      "biff2": {
+        "extension": ".xls",
+        "sheets": "single",
+        "Description": "Excel 2.0 Worksheet Format"
+      },
+      "xlml": {
+        "extension": ".xls",
+        "sheets": "multi",
+        "Description": "Excel 2003-2004 (SpreadsheetML)"
+      },
+      "numbers": {
+        "extension": ".numbers",
+        "sheets": "multi",
+        "Description": "Numbers 3.0+ Spreadsheet"
+      },
+      "ods": {
+        "extension": ".ods",
+        "sheets": "multi",
+        "Description": "OpenDocument Spreadsheet"
+      },
+      "fods": {
+        "extension": ".fods",
+        "sheets": "multi",
+        "Description": "Flat OpenDocument Spreadsheet"
+      },
+      "wk3": {
+        "extension": ".wk3",
+        "sheets": "multi",
+        "Description": "Lotus Workbook (WK3)"
+      },
+      "csv": {
+        "extension": ".csv",
+        "sheets": "single",
+        "Description": "Comma Separated Values"
+      },
+      "txt": {
+        "extension": ".txt",
+        "sheets": "single",
+        "Description": "UTF-16 Unicode Text (TXT)"
+      },
+      "sylk": {
+        "extension": ".sylk",
+        "sheets": "single",
+        "Description": "Symbolic Link (SYLK)"
+      },
+      "html": {
+        "extension": ".html",
+        "sheets": "single",
+        "Description": "HTML Document"
+      },
+      "dif": {
+        "extension": ".dif",
+        "sheets": "single",
+        "Description": "Data Interchange Format (DIF)"
+      },
+      "dbf": {
+        "extension": ".dbf",
+        "sheets": "single",
+        "Description": "dBASE II + VFP Extensions (DBF)"
+      },
+      "wk1": {
+        "extension": ".wk1",
+        "sheets": "single",
+        "Description": "Lotus Worksheet (WK1)"
+      },
+      "rtf": {
+        "extension": ".rtf",
+        "sheets": "single",
+        "Description": "Rich Text Format (RTF)"
+      },
+      "prn": {
+        "extension": ".prn",
+        "sheets": "single",
+        "Description": "Lotus Formatted Text"
+      },
+      "eth": {
+        "extension": ".eth",
+        "sheets": "single",
+        "Description": "Ethercalc Record Format (ETH)"
+      }
+    }
+    '
 ↓write_xlsx [steps.SimpleStep-1718724633223]: 
   expression: |
     'include(''SheetJS/Shim.js'');
@@ -47,8 +167,9 @@ comment: |
     
     is_success = true;
     error_msg = "";
-    book_type = (book_type !== null) && book_type != "" ? book_type : "xlsx";
-    file_name = (file_name !== null) && file_name != "" ? file_name : "output." + book_type;
+    book_type = (book_type != null) && book_type != "" ? book_type : "xlsx";
+    ext = book_types[book_type] != null && book_types[book_type] != "" ? book_types[book_type]["extension"] : ".xlsx";
+    file_name = (file_name != null) && file_name != "" ? file_name : "output" + ext;
     var output_file = (context.getProjectDirectory()).replace("\\", "/") + "/" + file_name;
     var url_file = context.getProjectUrl() + file_name;
     
@@ -58,7 +179,7 @@ comment: |
     	
     	/* add to workbook */
     	var wb = XLSX.utils.book_new();
-    	sheet_name = (sheet_name !== null) && sheet_name != "" ? sheet_name : "Sheet";
+    	sheet_name = (sheet_name != null) && sheet_name != "" ? sheet_name : "Sheet";
     	XLSX.utils.book_append_sheet(wb, ws, sheet_name);
     	
     	/* generate an XLSX file */
@@ -136,11 +257,11 @@ comment: |
 ↓data [variables.RequestableVariable-1718724633250]: 
   comment: Data source. Can be a Convertigo Complex variable or a JSON String. It must be an array of objects.
 ↓file_name [variables.RequestableVariable-1718724633253]: 
-  comment: Name of the output file with extension (should be .xlsx).
+  comment: Name of the output file with extension.
 ↓sheet_name [variables.RequestableVariable-1718724633256]: 
-  comment: Name of the XLSX Sheet.
+  comment: Name of the XLSX Sheet if applicable.
 ↓book_type [variables.RequestableVariable-1718724633259]: 
-  comment: Type of workbook to export to (supports XLSX and ODS).
+  comment: Type of workbook to export to. Default is XLSX.
   value: xlsx
 ↓Test_Case [core.TestCase]: 
   ↓data [variables.TestCaseVariable-1718724633263]: 
