@@ -171,7 +171,7 @@ comment: |
     ext = book_types[book_type] != null && book_types[book_type] != "" ? book_types[book_type]["extension"] : ".xlsx";
     file_name = (file_name != null) && file_name != "" ? file_name : "output" + ext;
     var output_file = (context.getProjectDirectory()).replace("\\", "/") + "/" + file_name;
-    var url_file = context.getProjectUrl() + file_name;
+    var url_file = context.getConvertigoUrl() + "projects/" + context.getProjectName() + "/" + file_name;
     
     try {
     	/* make the worksheet */
