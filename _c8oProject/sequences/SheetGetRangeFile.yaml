@@ -1,69 +1,72 @@
 comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of the "name" Sheet by the range of "range". Uses the SheetJS CE framework.
 ↓read_xlsx [steps.SimpleStep-1708681393921]: 
   expression: |
-    'include(''SheetJS/Shim.js'')
-    include(''SheetJS/SheetJS.js'')
-    
+    'include(''SheetJS/Shim.js'');
+    include(''SheetJS/SheetJS.js'');
     error = false;
     err_msg = "";
     err_code = "-1";
-    
-    if(itemPath && itemPath != ""){
-    	let file = new java.io.File(itemPath);
-    	let baData = org.apache.commons.io.FileUtils.readFileToByteArray(file);
-    	let b64 = ""+com.twinsoft.convertigo.engine.util.Base64.encodeBytes(baData);
-    	var raw_data = [];
-    	var sheet_name;
-    	var sheet_range;
-    	
-    	try {
-    		const workbook = XLSX.read(b64);
-    	} catch(e){
-    		error = true;
-    		err_msg = "Can not read file";
-    		err_code = "-2";
-    	}
-    	
-    	if(!error){
-    		if(name != null){
-    			if(name != ""){
-    				sheet_name = name;
-    			} else {
-    				error = true;
-    				err_msg = "Sheet name can not be empty";
-    				err_code = "-3";
-    			}
-    			
-    		} else {
-    			sheet_name = workbook.SheetNames[0];
-    		}
-    		
-    		if(!error){
-    			const worksheet = workbook.Sheets[sheet_name];
-    			
-    			if(worksheet != null){
-    				let opts = {};
-    				
-    				if(range && range != ""){
-    					sheet_range = XLSX.utils.decode_range(range);
-    				} else {
-    					sheet_range = worksheet[''!ref''];
-    				}
-    				
-    				opts["range"] = sheet_range;
-    				
-    				raw_data = XLSX.utils.sheet_to_json(worksheet, opts);
-    			} else {
-    				error = true;
-    				err_msg = "No Sheet named ''" + sheet_name + "'' found";
-    				err_code = "-4";
-    			}
-    		}
-    	}
+    raw_data = [];
+    if (itemPath == null || String(itemPath) == "") {
+        error = true;
+        err_msg = "No file provided";
+        err_code = "-1";
     } else {
-    	error = true;
-    	err_msg = "No file provided";
-    	err_code = "-1";
+        try {
+            var file = new java.io.File(String(itemPath));
+            if (!file.isFile()) {
+                error = true;
+                err_msg = "File not found or not readable";
+                err_code = "-2";
+            }
+            if (!error) {
+                var baData = org.apache.commons.io.FileUtils.readFileToByteArray(file);
+                var b64 = "" + com.twinsoft.convertigo.engine.util.Base64.encodeBytes(baData);
+                var workbook = XLSX.read(b64, {type: "base64"});
+                var sheet_name;
+                if (name != null) {
+                    if (String(name) != "") {
+                        sheet_name = String(name);
+                    } else {
+                        error = true;
+                        err_msg = "Sheet name can not be empty";
+                        err_code = "-3";
+                    }
+                } else {
+                    sheet_name = workbook.SheetNames[0];
+                }
+                if (!error) {
+                    var worksheet = workbook.Sheets[sheet_name];
+                    if (worksheet == null) {
+                        error = true;
+                        err_msg = "No Sheet named ''" + sheet_name + "'' found";
+                        err_code = "-4";
+                    } else {
+                        var opts = {};
+                        if (range != null && String(range) != "") {
+                            var rangeText = String(range);
+                            if (!/^[A-Za-z]+[1-9][0-9]*(?::[A-Za-z]+[1-9][0-9]*)?$/.test(rangeText)) {
+                                error = true;
+                                err_msg = "Invalid cell range";
+                                err_code = "-5";
+                            } else {
+                                opts.range = XLSX.utils.decode_range(rangeText);
+                            }
+                        } else {
+                            opts.range = worksheet[''!ref''];
+                        }
+                        if (!error) {
+                            raw_data = XLSX.utils.sheet_to_json(worksheet, opts);
+                        }
+                    }
+                }
+            }
+        } catch (e) {
+            error = true;
+            err_msg = "Can not read file";
+            err_code = "-2";
+            log.warn("SheetGetRangeFile: " + e);
+        }
     }'
 ↓jIf [steps.IfStep-1709633601914]: 
   condition: error

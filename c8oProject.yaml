@@ -37,17 +37,19 @@
     To export data to an Excel output file use the sequence [ExportDataToSheet](#ExportDataToSheet)
     
     # Table Of Content
+    
     '
   corsOrigin: =Origin
-  version: 1.2.6
+  version: 1.2.7
   ↓MSGraphConnector [connectors.HttpConnector]: 🗏 connectors/MSGraphConnector.yaml
   ↓checkAccessToken [sequences.GenericSequence]: 🗏 sequences/checkAccessToken.yaml
   ↓ExportDataToSheet [sequences.GenericSequence]: 🗏 sequences/ExportDataToSheet.yaml
   ↓loginAzureAdWithAccessToken [sequences.GenericSequence]: 🗏 sequences/loginAzureAdWithAccessToken.yaml
   ↓SheetGetRange [sequences.GenericSequence]: 🗏 sequences/SheetGetRange.yaml
   ↓SheetGetRangeFile [sequences.GenericSequence]: 🗏 sequences/SheetGetRangeFile.yaml
+  ↓TestLocalExcelNonRegression [sequences.GenericSequence]: 🗏 sequences/TestLocalExcelNonRegression.yaml
   ↓MobileBuilderTemplate [references.ProjectSchemaReference]: 
     comment: mobile builder template
     projectName: mobilebuilder_tpl_7_9_0=https://github.com/convertigo/c8oprj-mobilebuilder-tpl/archive/mobilebuilder_tpl_7_9_0.zip
   ↓Project_reference [references.ProjectSchemaReference]: 
-    projectName: lib_OAuth=https://github.com/convertigo/c8oprj-lib-oauth.git:branch=7.9.0:autoPull=true
+    projectName: lib_OAuth=https://github.com/convertigo/c8oprj-lib-oauth.git:branch=8.0.0

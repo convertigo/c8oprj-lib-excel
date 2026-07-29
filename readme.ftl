@@ -289,9 +289,13 @@ ${intro}
 <#-- output project.md link -->
 ${help("more.info")} : [documentation](./project.md)
 
+## Licenses and third-party software
+
+See [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) for SheetJS
+attribution, distribution checksums, and test-workbook provenance.
+
 <#-- output table of content -->
 <#if on("toc")>${toc}</#if>
 
 <#-- output project content -->
 ${content}
-

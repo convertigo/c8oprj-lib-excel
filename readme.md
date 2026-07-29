@@ -42,7 +42,13 @@ To export data to an Excel output file use the sequence [ExportDataToSheet](#Exp
 
 
 
+
 For more technical informations : [documentation](./project.md)
+
+## Licenses and third-party software
+
+See [THIRD_PARTY_NOTICES.md](./THIRD_PARTY_NOTICES.md) for SheetJS
+attribution, distribution checksums, and test-workbook provenance.
 
 - [Installation](#installation)
 - [Sequences](#sequences)
@@ -51,6 +57,7 @@ For more technical informations : [documentation](./project.md)
     - [loginAzureAdWithAccessToken](#loginazureadwithaccesstoken)
     - [SheetGetRange](#sheetgetrange)
     - [SheetGetRangeFile](#sheetgetrangefile)
+    - [TestLocalExcelNonRegression](#testlocalexcelnonregression)
 
 
 ## Installation
@@ -192,5 +199,8 @@ Imports an xlsx file ( from "itemPath") and outputs a JSON object of the "name" 
 </tr>
 </table>
 
+### TestLocalExcelNonRegression
+
+Runs local Excel non-regression checks against versioned XLSX fixtures. Verifies the 50-row sample, typed values, XLSX export, and round-trip import. The temporary round-trip file is deleted before assertions are reported.
 
 

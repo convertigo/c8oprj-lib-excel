@@ -39,13 +39,14 @@ To export data to an Excel output file use the sequence [ExportDataToSheet](#Exp
 # Table Of Content
 
 
+
 <details><summary><span style="color:DarkGoldenRod"><i>References</i></span></summary><blockquote><p>
 
 
 ## ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/references/images/ProjectSchemaReference_16x16.png?raw=true "ProjectSchemaReference") lib_OAuth
 
 
-see [readme](https://github.com/convertigo/c8oprj-lib-oauth/tree/7.9.0#readme)
+see [readme](https://github.com/convertigo/c8oprj-lib-oauth/tree/8.0.0#readme)
 </p></blockquote></details>
 
 <details><summary><span style="color:DarkGoldenRod"><i>Connectors</i></span></summary><blockquote><p>
@@ -371,5 +372,13 @@ The range of cells to retrieve for ex: "A1:D10" (If not provided or empty string
 </tr>
 </table>
 
+</p></blockquote></details>
+
+<details><summary><b>TestLocalExcelNonRegression</b> : Runs local Excel non-regression checks against versioned XLSX fixtures</summary><blockquote><p>
+
+
+## ![](https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/sequences/images/genericsequence_color_16x16.png?raw=true "GenericSequence") TestLocalExcelNonRegression
+
+Runs local Excel non-regression checks against versioned XLSX fixtures. Verifies the 50-row sample, typed values, XLSX export, and round-trip import. The temporary round-trip file is deleted before assertions are reported.
 </p></blockquote></details>
 </p></blockquote></details>

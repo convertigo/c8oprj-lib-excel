@@ -1,0 +1,148 @@
+accessibility: Private
+comment: Runs local Excel non-regression checks against versioned XLSX fixtures. Verifies the 50-row sample, typed values, XLSX export, and round-trip import. The temporary round-trip file is deleted before assertions are reported.
+↓PrepareSampleRead [steps.SimpleStep-1785327836432]: 
+  expression: |
+    itemPath = context.getProjectDirectory() + "/sample/file_example_XLSX_50.xlsx";
+    name = null;
+    range = null;
+↓ReadSample50 [steps.SequenceStep-1785327836447]: 
+  sourceSequence: lib_MicrosoftExcel.SheetGetRangeFile
+  ↓itemPath [variables.StepVariable-1785327836461]: 
+  ↓name [variables.StepVariable-1785327836480]: 
+  ↓range [variables.StepVariable-1785327836496]: 
+↓sampleRows [steps.SourceStep-1785327890476]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1785327836447
+        - java.lang.String: 
+          - ↑value: ./document/ExcelSheet/*
+  variableName: sampleRows
+↓PrepareTypesRead [steps.SimpleStep-1785327890496]: 
+  expression: |
+    itemPath = context.getProjectDirectory() + "/sample/non_regression_types.xlsx";
+    name = "People";
+    range = "A1:C3";
+↓ReadTypesFixture [steps.SequenceStep-1785327890515]: 
+  sourceSequence: lib_MicrosoftExcel.SheetGetRangeFile
+  ↓itemPath [variables.StepVariable-1785327890527]: 
+  ↓name [variables.StepVariable-1785327890546]: 
+  ↓range [variables.StepVariable-1785327890562]: 
+↓PrepareRoundTripExport [steps.SimpleStep-1785327890571]: 
+  expression: |
+    data = '[{"name":"Alice","city":"Rome","score":42},{"name":"Bob","city":"Paris","score":17}]';
+    file_name = "sample/.non_regression_roundtrip.xlsx";
+    sheet_name = "RoundTrip";
+    book_type = "xlsx";
+↓ExportRoundTrip [steps.SequenceStep-1785327890583]: 
+  sourceSequence: lib_MicrosoftExcel.ExportDataToSheet
+  ↓data [variables.StepVariable-1785327890594]: 
+  ↓file_name [variables.StepVariable-1785327890608]: 
+  ↓sheet_name [variables.StepVariable-1785327890619]: 
+  ↓book_type [variables.StepVariable-1785327890636]: 
+↓PrepareRoundTripRead [steps.SimpleStep-1785327890648]: 
+  expression: |
+    itemPath = context.getProjectDirectory() + "/sample/.non_regression_roundtrip.xlsx";
+    name = "RoundTrip";
+    range = "A1:C3";
+↓ReadRoundTrip [steps.SequenceStep-1785327890663]: 
+  sourceSequence: lib_MicrosoftExcel.SheetGetRangeFile
+  ↓itemPath [variables.StepVariable-1785327890678]: 
+  ↓name [variables.StepVariable-1785327890689]: 
+  ↓range [variables.StepVariable-1785327890705]: 
+↓typesRows [steps.SourceStep-1785327956349]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1785327890515
+        - java.lang.String: 
+          - ↑value: ./document/ExcelSheet/*
+  variableName: typesRows
+↓exportSuccess [steps.SimpleSourceStep-1785327956369]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1785327890583
+        - java.lang.String: 
+          - ↑value: ./document/success/text()
+  variableName: exportSuccess
+↓roundTripRows [steps.SourceStep-1785327956396]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1785327890663
+        - java.lang.String: 
+          - ↑value: ./document/ExcelSheet/*
+  variableName: roundTripRows
+↓CleanupRoundTripFile [steps.DeleteStep-1785327956414]: 
+  sourcePath: context.getProjectDirectory() + "/sample/.non_regression_roundtrip.xlsx"
+↓AssertResults [steps.SimpleStep-1785327956427]: 
+  expression: |
+    'function fieldText(row, fieldName) {
+    	var nodes = row.getElementsByTagName(fieldName);
+    	return nodes.getLength() > 0 ? String(nodes.item(0).getTextContent()) : null;
+    }
+    
+    var failures = [];
+    var sampleCount = sampleRows.getLength();
+    var typesCount = typesRows.getLength();
+    var roundTripCount = roundTripRows.getLength();
+    
+    if (sampleCount != 50) {
+    	failures.push("sample row count expected 50, got " + sampleCount);
+    }
+    
+    if (typesCount != 2) {
+    	failures.push("typed fixture row count expected 2, got " + typesCount);
+    } else {
+    	if (fieldText(typesRows.item(0), "name") != "Alice") failures.push("typed fixture first name");
+    	if (fieldText(typesRows.item(0), "city") != "Rome") failures.push("typed fixture first city");
+    	if (fieldText(typesRows.item(0), "score") != "42") failures.push("typed fixture numeric score");
+    }
+    
+    if (String(exportSuccess) != "true") {
+    	failures.push("round-trip export did not report success");
+    }
+    
+    if (roundTripCount != 2) {
+    	failures.push("round-trip row count expected 2, got " + roundTripCount);
+    } else {
+    	if (fieldText(roundTripRows.item(1), "name") != "Bob") failures.push("round-trip second name");
+    	if (fieldText(roundTripRows.item(1), "score") != "17") failures.push("round-trip second numeric score");
+    }
+    
+    if (failures.length > 0) {
+    	throw new Error("Local Excel non-regression failed: " + failures.join("; "));
+    }
+    
+    regressionResult = {
+    	status: "ok",
+    	total: 4,
+    	tests: [
+    		{name: "read_50_row_fixture", status: "ok", rows: sampleCount},
+    		{name: "read_typed_fixture", status: "ok", rows: typesCount},
+    		{name: "export_xlsx", status: "ok"},
+    		{name: "round_trip_xlsx", status: "ok", rows: roundTripCount}
+    	]
+    };'
+↓NonRegressionResult [steps.JsonToXmlStep-1785327956453]: 
+  jsonObject: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: JS
+        - →→: regressionResult
+  key: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
+      - SmartType: 
+        - ↑mode: PLAIN
+        - →→: nonRegression

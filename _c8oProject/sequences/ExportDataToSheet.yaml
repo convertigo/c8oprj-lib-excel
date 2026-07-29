@@ -19,9 +19,23 @@ comment: |
   </table>'
 ↓inputVars [steps.InputVariablesStep-1718724633211]: 
 ↓check_data [steps.SimpleStep-1718724633214]: 
-  expression:  try {jsonVar = JSON.parse(data)} catch (e){}
+  expression: |
+    'jsonVar = undefined;
+    data_error = "";
+    if (data == null) {
+        data_error = "No data provided";
+    } else {
+        var isTextData = typeof data == "string" || Object.prototype.toString.call(data) == "[object String]";
+        if (isTextData) {
+            try {
+                jsonVar = JSON.parse(String(data));
+            } catch (e) {
+                data_error = "Invalid JSON data";
+            }
+        }
+    }'
 ↓jIf [steps.IfStep-1718724633217]: 
-  condition: typeof jsonVar == "undefined"
+  condition: typeof jsonVar == "undefined" && data_error == "" && typeof data != "undefined" && typeof data != "string"
   ↓data [steps.JsonSourceStep-1718724633220]: 
     sourceDefinition: 
       - xmlizable: 
@@ -156,40 +170,44 @@ comment: |
   expression: |
     'include(''SheetJS/Shim.js'');
     include(''SheetJS/SheetJS.js'');
-    
-    /*
-    var data = [
-        {"name":"John", "city": "Seattle"},
-        {"name":"Mike", "city": "Los Angeles"},
-        {"name":"Zach", "city": "New York"}
-    ];
-    */
-    
-    is_success = true;
+    is_success = false;
     error_msg = "";
-    book_type = (book_type != null) && book_type != "" ? book_type : "xlsx";
-    ext = book_types[book_type] != null && book_types[book_type] != "" ? book_types[book_type]["extension"] : ".xlsx";
-    file_name = (file_name != null) && file_name != "" ? file_name : "output" + ext;
+    book_type = (book_type != null && String(book_type) != "") ? String(book_type) : "xlsx";
+    var book_definition = book_types[book_type];
+    var ext = book_definition != null ? book_definition["extension"] : ".xlsx";
+    file_name = (file_name != null && String(file_name) != "") ? String(file_name) : "output" + ext;
+    sheet_name = (sheet_name != null && String(sheet_name) != "") ? String(sheet_name) : "Sheet";
     var output_file = (context.getProjectDirectory()).replace("\\", "/") + "/" + file_name;
     var url_file = context.getConvertigoUrl() + "projects/" + context.getProjectName() + "/" + file_name;
-    
-    try {
-    	/* make the worksheet */
-    	var ws = XLSX.utils.json_to_sheet(jsonVar);
-    	
-    	/* add to workbook */
-    	var wb = XLSX.utils.book_new();
-    	sheet_name = (sheet_name != null) && sheet_name != "" ? sheet_name : "Sheet";
-    	XLSX.utils.book_append_sheet(wb, ws, sheet_name);
-    	
-    	/* generate an XLSX file */
-    	var output = XLSX.write(wb, {bookType: book_type, type: "base64"});
-    	ba = com.twinsoft.convertigo.engine.util.Base64.decode(output);
-    	org.apache.commons.io.FileUtils.writeByteArrayToFile(new java.io.File(output_file), ba);
-    } catch(e){
-    	is_success = false;
-    	error_msg = ""+e;
-    	log.warn(""+e);
+    if (data_error != "") {
+        error_msg = data_error;
+    } else if (typeof jsonVar == "undefined" || jsonVar == null) {
+        error_msg = "No data provided";
+    } else if (!Array.isArray(jsonVar)) {
+        error_msg = "Data must be an array of objects";
+    } else if (book_definition == null) {
+        error_msg = "Unsupported book type: " + book_type;
+    } else {
+        for (var rowIndex = 0; rowIndex < jsonVar.length; rowIndex++) {
+            if (jsonVar[rowIndex] == null || typeof jsonVar[rowIndex] != "object" || Array.isArray(jsonVar[rowIndex])) {
+                error_msg = "Data must be an array of objects";
+                break;
+            }
+        }
+    }
+    if (error_msg == "") {
+        try {
+            var ws = XLSX.utils.json_to_sheet(jsonVar);
+            var wb = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, sheet_name);
+            var output = XLSX.write(wb, {bookType: book_type, type: "base64"});
+            var ba = com.twinsoft.convertigo.engine.util.Base64.decode(output);
+            org.apache.commons.io.FileUtils.writeByteArrayToFile(new java.io.File(output_file), ba);
+            is_success = true;
+        } catch (e) {
+            error_msg = "Can not export data";
+            log.warn("ExportDataToSheet: " + e);
+        }
     }'
 ↓jIfThenElse [steps.IfThenElseStep-1718724633226]: 
   condition: is_success
