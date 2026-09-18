@@ -177,8 +177,8 @@ comment: |
     var ext = book_definition != null ? book_definition["extension"] : ".xlsx";
     file_name = (file_name != null && String(file_name) != "") ? String(file_name) : "output" + ext;
     sheet_name = (sheet_name != null && String(sheet_name) != "") ? String(sheet_name) : "Sheet";
-    var output_file = (context.getProjectDirectory()).replace("\\", "/") + "/" + file_name;
-    var url_file = context.getConvertigoUrl() + "projects/" + context.getProjectName() + "/" + file_name;
+    var output_file = (context.getProjectDirectory()).replace("\\", "/") + "/export/" + file_name;
+    var url_file = context.getConvertigoUrl() + "projects/" + context.getProjectName() + "/export/" + file_name;
     if (data_error != "") {
         error_msg = data_error;
     } else if (typeof jsonVar == "undefined" || jsonVar == null) {
@@ -197,13 +197,38 @@ comment: |
     }
     if (error_msg == "") {
         try {
-            var ws = XLSX.utils.json_to_sheet(jsonVar);
-            var wb = XLSX.utils.book_new();
-            XLSX.utils.book_append_sheet(wb, ws, sheet_name);
-            var output = XLSX.write(wb, {bookType: book_type, type: "base64"});
-            var ba = com.twinsoft.convertigo.engine.util.Base64.decode(output);
-            org.apache.commons.io.FileUtils.writeByteArrayToFile(new java.io.File(output_file), ba);
-            is_success = true;
+    //        var ws = XLSX.utils.json_to_sheet(jsonVar);
+    //        var wb = XLSX.utils.book_new();
+    //        XLSX.utils.book_append_sheet(wb, ws, sheet_name);
+    //        var output = XLSX.write(wb, {bookType: book_type, type: "base64"});
+    //        var ba = com.twinsoft.convertigo.engine.util.Base64.decode(output);
+    //        org.apache.commons.io.FileUtils.writeByteArrayToFile(new java.io.File(output_file), ba);
+    //        is_success = true;
+    		var ws = XLSX.utils.json_to_sheet(jsonVar);
+    		var wb = XLSX.utils.book_new();
+    		XLSX.utils.book_append_sheet(wb, ws, sheet_name);
+    		
+    		var output = XLSX.write(wb, {
+    			bookType: book_type,
+    			type: "base64"
+    		});
+    
+    		var ba = com.twinsoft.convertigo.engine.util.Base64.decode(output);
+    
+    		org.apache.commons.io.FileUtils.writeByteArrayToFile(
+    			new java.io.File(output_file),
+    			ba
+    		);
+    		
+    //		context.addFileToDeleteAtEndOfSession(
+    //			new java.io.File(output_file)
+    //		);
+    		
+    		context.addFileToDeleteAtEndOfSession(
+    			new java.io.File(output_file)
+    		);
+    		
+    		is_success = true;
         } catch (e) {
             error_msg = "Can not export data";
             log.warn("ExportDataToSheet: " + e);
@@ -281,6 +306,7 @@ comment: |
 ↓book_type [variables.RequestableVariable-1718724633259]: 
   comment: Type of workbook to export to. Default is XLSX.
   value: xlsx
+↓bin [variables.RequestableVariable-1789743278464]: 
 ↓Test_Case [core.TestCase]: 
   ↓data [variables.TestCaseVariable-1718724633263]: 
     value: |
