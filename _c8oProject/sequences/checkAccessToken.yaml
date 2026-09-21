@@ -1,3 +1,4 @@
+accessibility: Hidden
 comment: |
   Checks is a valid access token is held by the current users' session for AzureAD
   

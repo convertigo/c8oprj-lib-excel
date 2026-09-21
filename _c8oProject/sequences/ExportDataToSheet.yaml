@@ -1,3 +1,4 @@
+accessibility: Hidden
 comment: |
   'Use to export data to various file format (txt, csv, xlsx, ods...). Uses the SheetJS CE framework.
   
@@ -177,8 +178,8 @@ comment: |
     var ext = book_definition != null ? book_definition["extension"] : ".xlsx";
     file_name = (file_name != null && String(file_name) != "") ? String(file_name) : "output" + ext;
     sheet_name = (sheet_name != null && String(sheet_name) != "") ? String(sheet_name) : "Sheet";
-    var output_file = (context.getProjectDirectory()).replace("\\", "/") + "/export/" + file_name;
-    var url_file = context.getConvertigoUrl() + "projects/" + context.getProjectName() + "/export/" + file_name;
+    var output_file = (context.getProjectDirectory()).replace("\\", "/") + "/outputs/" + file_name;
+    var url_file = context.getConvertigoUrl() + "projects/" + context.getProjectName() + "/outputs/" + file_name;
     if (data_error != "") {
         error_msg = data_error;
     } else if (typeof jsonVar == "undefined" || jsonVar == null) {

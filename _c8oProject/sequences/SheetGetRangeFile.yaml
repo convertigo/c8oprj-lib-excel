@@ -1,3 +1,4 @@
+accessibility: Hidden
 comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of the "name" Sheet by the range of "range". Uses the SheetJS CE framework.
 ↓read_xlsx [steps.SimpleStep-1708681393921]: 
   expression: |

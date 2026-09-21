@@ -42,6 +42,7 @@
   corsOrigin: =Origin
   version: 1.2.7
   ↓MSGraphConnector [connectors.HttpConnector]: 🗏 connectors/MSGraphConnector.yaml
+  ↓autoRemoveFolder [sequences.GenericSequence]: 🗏 sequences/autoRemoveFolder.yaml
   ↓checkAccessToken [sequences.GenericSequence]: 🗏 sequences/checkAccessToken.yaml
   ↓ExportDataToSheet [sequences.GenericSequence]: 🗏 sequences/ExportDataToSheet.yaml
   ↓loginAzureAdWithAccessToken [sequences.GenericSequence]: 🗏 sequences/loginAzureAdWithAccessToken.yaml

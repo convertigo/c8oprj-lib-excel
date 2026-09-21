@@ -1,3 +1,4 @@
+accessibility: Hidden
 comment: Read a Range of values from an Office 365 Sheet.
 ↓Call_Sequence [steps.SequenceStep-1608132452375]: 
   sourceSequence: lib_MicrosoftExcel.checkAccessToken

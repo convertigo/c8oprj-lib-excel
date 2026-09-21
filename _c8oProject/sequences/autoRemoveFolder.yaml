@@ -1,0 +1,6 @@
+accessibility: Hidden
+autoStart: true
+↓getFolderPath [steps.SimpleStep-1789979304154]: 
+  expression: var output_folder = (context.getProjectDirectory()).replace("\\", "/") + '/outputs/'
+↓Delete_file [steps.DeleteStep-1789979252773]: 
+  sourcePath: output_folder
