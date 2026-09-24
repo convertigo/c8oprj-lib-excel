@@ -39,29 +39,12 @@ comment: 'Clean the generated files. Can be used in a Convertigo scheduled job t
   ↓checkFilePolicy [steps.SimpleStep-1790265464242]: 
     expression: |
       'var isFileRemovable = true;
+      var lowerFileName = ("" + fileName).toLowerCase();
       
-      if (fileName == ".gitkeep") {
+      if (lowerFileName == ".gitkeep") {
       	isFileRemovable = false;
-      } else {	
-      	var allowedExtensions = [
-      		".xlsx",
-      		".xls",
-      		".ods",
-      		".csv"
-      	];
-      	
-      	var lowerFileName = ("" + fileName).toLowerCase();
-      	
-      	var hasAllowedExtension = false;
-      	
-      	for (var i = 0; i < allowedExtensions.length; i++) {
-      		if (lowerFileName.lastIndexOf(allowedExtensions[i]) === lowerFileName.length - allowedExtensions[i].length) {
-      			hasAllowedExtension = true;
-      			break;
-      		}
-      	}
-      	
-      	if (!hasAllowedExtension) {
+      } else {
+      	if (!/\.(xlsx|xlsm|xlsb|xls|numbers|ods|fods|wk3|csv|txt|sylk|html|dif|dbf|wk1|rtf|prn|eth)$/i.test(lowerFileName)) {
       		isFileRemovable = false;
       	}
       }
