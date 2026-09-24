@@ -1,4 +1,4 @@
-accessibility: Hidden
+accessibility: Private
 autoStart: true
 ↓getFolderPath [steps.SimpleStep-1789981601230]: 
   expression: |

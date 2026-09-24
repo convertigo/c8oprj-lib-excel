@@ -1,43 +1,83 @@
 accessibility: Private
 comment: 'Clean the generated files. Can be used in a Convertigo scheduled job to automate the process. Variables : ''max_time'' => delete only files older than x ms. ''all'' => Delete all files in folder even in a max_time is defined. ''target'' => Folder path containing the files to delete. Can use "./",  ".//" or absolute path syntax.'
-↓jIf [steps.IfStep-1789981573978]: 
-  condition: target == null || target == ""
-  ↓Return [steps.ReturnStep-1789981573981]: 
-↓init [steps.SimpleStep-1789981573984]: 
+↓jIf1 [steps.IfStep-1790265464221]: 
+  condition: target == null || target == "" || target != ".//outputs"
+  ↓Return [steps.ReturnStep-1790265464224]: 
+↓init1 [steps.SimpleStep-1790265464227]: 
   expression: now = (new Date()).getTime();
-↓List_directory [steps.ListDirStep-1789981573987]: 
+↓List_directory1 [steps.ListDirStep-1790265464230]: 
   sourceDirectory: target
-↓Iterator [steps.IteratorStep-1789981573990]: 
+↓Iterator1 [steps.IteratorStep-1790265464233]: 
   sourceDefinition: 
     - xmlizable: 
       - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
       - com.twinsoft.convertigo.beans.common.XMLVector: 
         - java.lang.String: 
-          - ↑value: 1789981573987
+          - ↑value: 1790265464230
         - java.lang.String: 
           - ↑value: ./file
-  ↓jSimpleSource [steps.SimpleSourceStep-1789981573993]: 
+  ↓jSimpleSource [steps.SimpleSourceStep-1790265464236]: 
     sourceDefinition: 
       - xmlizable: 
         - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
         - com.twinsoft.convertigo.beans.common.XMLVector: 
           - java.lang.String: 
-            - ↑value: 1789981573990
+            - ↑value: 1790265464233
           - java.lang.String: 
             - ↑value: ./@lastModified
     variableName: lastModified
-  ↓jIf [steps.IfStep-1789981573996]: 
-    condition: all == "true" || (now - lastModified > max_time)
-    ↓Copy [steps.XMLCopyStep-1789981573999]: 
+  ↓fileName [steps.SimpleSourceStep-1790265464239]: 
+    sourceDefinition: 
+      - xmlizable: 
+        - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+        - com.twinsoft.convertigo.beans.common.XMLVector: 
+          - java.lang.String: 
+            - ↑value: 1790265464233
+          - java.lang.String: 
+            - ↑value: ./text()
+    variableName: fileName
+  ↓checkFilePolicy [steps.SimpleStep-1790265464242]: 
+    expression: |
+      'var isFileRemovable = true;
+      
+      if (fileName == ".gitkeep") {
+      	isFileRemovable = false;
+      } else {	
+      	var allowedExtensions = [
+      		".xlsx",
+      		".xls",
+      		".ods",
+      		".csv"
+      	];
+      	
+      	var lowerFileName = ("" + fileName).toLowerCase();
+      	
+      	var hasAllowedExtension = false;
+      	
+      	for (var i = 0; i < allowedExtensions.length; i++) {
+      		if (lowerFileName.lastIndexOf(allowedExtensions[i]) === lowerFileName.length - allowedExtensions[i].length) {
+      			hasAllowedExtension = true;
+      			break;
+      		}
+      	}
+      	
+      	if (!hasAllowedExtension) {
+      		isFileRemovable = false;
+      	}
+      }
+      '
+  ↓jIf [steps.IfStep-1790265464245]: 
+    condition: (all == "true" && isFileRemovable) || ((now - lastModified > max_time) && isFileRemovable)
+    ↓Copy [steps.XMLCopyStep-1790265464248]: 
       sourceDefinition: 
         - xmlizable: 
           - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
           - com.twinsoft.convertigo.beans.common.XMLVector: 
             - java.lang.String: 
-              - ↑value: 1789981573990
+              - ↑value: 1790265464233
             - java.lang.String: 
               - ↑value: .
-    ↓Delete_file [steps.DeleteStep-1789981574002]: 
+    ↓Delete_file [steps.DeleteStep-1790265464251]: 
       sourcePath: target + "/" + item.getTextContent()
 ↓max_time [variables.RequestableVariable-1789981574005]: 
   comment: Define the maximum time in millisecond before deleting the file. Default is 86400000ms (24h). Only works if 'all' is 'false'
