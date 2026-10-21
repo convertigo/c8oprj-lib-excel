@@ -1,5 +1,6 @@
 accessibility: Hidden
 autoStart: true
+comment: "Hidden helper sequence, auto-started with the project. Calls clean_outputs on the project's outputs/ folder to remove generated files older than 10 minutes (600000 ms)."
 ↓getFolderPath [steps.SimpleStep-1789981601230]: 
   expression: |
     var target = (context.getProjectDirectory()).replace("\\", "/") + '/outputs/';
