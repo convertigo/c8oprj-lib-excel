@@ -84,6 +84,52 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
   variableName: roundTripRows
 ↓CleanupRoundTripFile [steps.DeleteStep-1785327956414]: 
   sourcePath: context.getProjectDirectory() + "/outputs/sample/.non_regression_roundtrip.xlsx"
+↓PrepareOptionsExport [steps.SimpleStep-1792589735682]: 
+  expression: |
+    data = '[{"name":"Alice","city":"Rome","score":42},{"name":"Bob","city":"Paris","score":null}]';
+    file_name = "sample/.non_regression_options.xlsx";
+    sheet_name = "Options";
+    book_type = "xlsx";
+↓ExportOptions [steps.SequenceStep-1792589735710]: 
+  sourceSequence: lib_MicrosoftExcel.ExportDataToSheet
+  ↓data [variables.StepVariable-1792589735713]: 
+  ↓file_name [variables.StepVariable-1792589735716]: 
+  ↓sheet_name [variables.StepVariable-1792589735718]: 
+  ↓book_type [variables.StepVariable-1792589735720]: 
+↓PrepareOptionsRead [steps.SimpleStep-1792589735727]: 
+  expression: |
+    itemPath = context.getProjectDirectory() + "/outputs/sample/.non_regression_options.xlsx";
+    name = "Options";
+    range = "A1:C3";
+    options = '{"defval":""}';
+↓ReadWithOptions [steps.SequenceStep-1792589735740]: 
+  sourceSequence: lib_MicrosoftExcel.SheetGetRangeFile
+  ↓itemPath [variables.StepVariable-1792589735742]: 
+  ↓name [variables.StepVariable-1792589735744]: 
+  ↓range [variables.StepVariable-1792589735746]: 
+  ↓options [variables.StepVariable-1792589735748]: 
+↓optionsRows [steps.SourceStep-1792589735773]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1792589735740
+        - java.lang.String: 
+          - ↑value: ./document/ExcelSheet/*
+  variableName: optionsRows
+↓optionsExportSuccess [steps.SimpleSourceStep-1792589735784]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1792589735710
+        - java.lang.String: 
+          - ↑value: ./document/success/text()
+  variableName: optionsExportSuccess
+↓CleanupOptionsFile [steps.DeleteStep-1792589735796]: 
+  sourcePath: context.getProjectDirectory() + "/outputs/sample/.non_regression_options.xlsx"
 ↓AssertResults [steps.SimpleStep-1785327956427]: 
   expression: |
     'function fieldText(row, fieldName) {
@@ -95,6 +141,7 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
     var sampleCount = sampleRows.getLength();
     var typesCount = typesRows.getLength();
     var roundTripCount = roundTripRows.getLength();
+    var optionsCount = optionsRows.getLength();
     
     if (sampleCount != 50) {
     	failures.push("sample row count expected 50, got " + sampleCount);
@@ -119,18 +166,31 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
     	if (fieldText(roundTripRows.item(1), "score") != "17") failures.push("round-trip second numeric score");
     }
     
+    if (String(optionsExportSuccess) != "true") {
+    	failures.push("options export did not report success");
+    }
+    
+    if (optionsCount != 2) {
+    	failures.push("options row count expected 2, got " + optionsCount);
+    } else {
+    	if (fieldText(optionsRows.item(1), "name") != "Bob") failures.push("options second name");
+    	if (fieldText(optionsRows.item(1), "city") != "Paris") failures.push("options second city");
+    	if (fieldText(optionsRows.item(1), "score") != "") failures.push("options defval did not fill the empty score cell");
+    }
+    
     if (failures.length > 0) {
     	throw new Error("Local Excel non-regression failed: " + failures.join("; "));
     }
     
     regressionResult = {
     	status: "ok",
-    	total: 4,
+    	total: 5,
     	tests: [
     		{name: "read_50_row_fixture", status: "ok", rows: sampleCount},
     		{name: "read_typed_fixture", status: "ok", rows: typesCount},
     		{name: "export_xlsx", status: "ok"},
-    		{name: "round_trip_xlsx", status: "ok", rows: roundTripCount}
+    		{name: "round_trip_xlsx", status: "ok", rows: roundTripCount},
+    		{name: "read_with_options_defval", status: "ok", rows: optionsCount}
     	]
     };'
 ↓NonRegressionResult [steps.JsonToXmlStep-1785327956453]: 
