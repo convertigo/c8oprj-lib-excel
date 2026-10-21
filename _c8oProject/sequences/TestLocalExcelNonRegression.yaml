@@ -44,7 +44,7 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
   ↓book_type [variables.StepVariable-1785327890636]: 
 ↓PrepareRoundTripRead [steps.SimpleStep-1785327890648]: 
   expression: |
-    itemPath = context.getProjectDirectory() + "/sample/.non_regression_roundtrip.xlsx";
+    itemPath = context.getProjectDirectory() + "/outputs/sample/.non_regression_roundtrip.xlsx";
     name = "RoundTrip";
     range = "A1:C3";
 ↓ReadRoundTrip [steps.SequenceStep-1785327890663]: 
@@ -83,7 +83,7 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
           - ↑value: ./document/ExcelSheet/*
   variableName: roundTripRows
 ↓CleanupRoundTripFile [steps.DeleteStep-1785327956414]: 
-  sourcePath: context.getProjectDirectory() + "/sample/.non_regression_roundtrip.xlsx"
+  sourcePath: context.getProjectDirectory() + "/outputs/sample/.non_regression_roundtrip.xlsx"
 ↓AssertResults [steps.SimpleStep-1785327956427]: 
   expression: |
     'function fieldText(row, fieldName) {

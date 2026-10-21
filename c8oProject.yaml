@@ -7,6 +7,10 @@
     
     This library requires the **lib_OAuth** project (declared as a project reference, branch 8.0.0). It provides the OAuth login flow used by the Office 365 sequences. When installing from the marketplace, the reference is added automatically; when importing manually, make sure lib_OAuth is present in the workspace.
     
+    # Dependencies
+    
+    This library requires the **lib_OAuth** project (declared as a project reference, branch 8.0.0). It provides the OAuth login flow used by the Office 365 sequences. When installing from the marketplace, the reference is added automatically; when importing manually, make sure lib_OAuth is present in the workspace.
+    
     # Usage for Office 365
     
     The Office 365 sequences call the Microsoft Graph API (`https://graph.microsoft.com/v1.0/me`, connector **MSGraphConnector**). They only work if you performed an OAuth Authentication to AzureAD first.
@@ -229,9 +233,9 @@
     ### TestLocalExcelNonRegression
     
     Runs local Excel non-regression checks against versioned XLSX fixtures. Verifies the 50-row sample, typed values, XLSX export, and round-trip import. The temporary round-trip file is deleted before assertions are reported.
-    
+    '
   corsOrigin: =Origin
-  version: 1.2.7
+  version: 1.2.8
   ↓MSGraphConnector [connectors.HttpConnector]: 🗏 connectors/MSGraphConnector.yaml
   ↓autoRemoveFolder [sequences.GenericSequence]: 🗏 sequences/autoRemoveFolder.yaml
   ↓checkAccessToken [sequences.GenericSequence]: 🗏 sequences/checkAccessToken.yaml
