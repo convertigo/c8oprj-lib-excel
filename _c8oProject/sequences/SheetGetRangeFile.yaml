@@ -9,6 +9,24 @@ comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of th
     err_msg = "";
     err_code = "-1";
     raw_data = [];
+    
+    // Parse une option (objet JS ou chaîne JSON) en objet. Retourne null si invalide.
+    function parseOptions(value) {
+        if (value == null || String(value) == "") {
+            return {};
+        }
+        var isString = typeof value == "string" || Object.prototype.toString.call(value) == "[object String]";
+        if (isString) {
+            try {
+                var parsed = JSON.parse(String(value));
+                return (parsed != null && typeof parsed == "object") ? parsed : null;
+            } catch (e) {
+                return null;
+            }
+        }
+        return (typeof value == "object") ? value : null;
+    }
+    
     if (itemPath == null || String(itemPath) == "") {
         error = true;
         err_msg = "No file provided";
@@ -21,10 +39,28 @@ comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of th
                 err_msg = "File not found or not readable";
                 err_code = "-2";
             }
+    
+            // Options pour XLSX.read
+            var xlsxReadOptions = {};
+            if (!error) {
+                var rOpts = parseOptions(typeof xlsx_read_options != "undefined" ? xlsx_read_options : null);
+                if (rOpts == null) {
+                    error = true;
+                    err_msg = "Invalid xlsx_read_options: must be a JSON object or a JSON string";
+                    err_code = "-7";
+                } else {
+                    for (var rKey in rOpts) {
+                        xlsxReadOptions[rKey] = rOpts[rKey];
+                    }
+                    // Le type est imposé : les données sont fournies en base64
+                    xlsxReadOptions.type = "base64";
+                }
+            }
+    		
             if (!error) {
                 var baData = org.apache.commons.io.FileUtils.readFileToByteArray(file);
                 var b64 = "" + com.twinsoft.convertigo.engine.util.Base64.encodeBytes(baData);
-                var workbook = XLSX.read(b64, {type: "base64"});
+                var workbook = XLSX.read(b64, xlsxReadOptions);
                 var sheet_name;
                 if (name != null) {
                     if (String(name) != "") {
@@ -58,26 +94,13 @@ comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of th
                             opts.range = worksheet[''!ref''];
                         }
                         if (!error) {
-                            var read_options = {};
-                            if (options != null && String(options) != "") {
-                                var isStringOptions = typeof options == "string" || Object.prototype.toString.call(options) == "[object String]";
-                                if (isStringOptions) {
-                                    try {
-                                        read_options = JSON.parse(String(options));
-                                    } catch (e) {
-                                        error = true;
-                                        err_msg = "Invalid options: not a valid JSON object";
-                                        err_code = "-6";
-                                    }
-                                } else if (typeof options == "object") {
-                                    read_options = options;
-                                } else {
-                                    error = true;
-                                    err_msg = "Invalid options: must be a JSON object or a JSON string";
-                                    err_code = "-6";
-                                }
-                            }
-                            if (!error) {
+                            // Options pour sheet_to_json
+                            var read_options = parseOptions(options);
+                            if (read_options == null) {
+                                error = true;
+                                err_msg = "Invalid options: must be a JSON object or a JSON string";
+                                err_code = "-6";
+                            } else {
                                 for (var optKey in read_options) {
                                     opts[optKey] = read_options[optKey];
                                 }
@@ -139,3 +162,6 @@ comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of th
 ↓options [variables.RequestableVariable-1792515617928]: 
   comment: Options passed to the SheetJS sheet_to_json call, as a JSON object or a JSON string. For example {"defval":""} fills empty cells with a default value so every row has the same columns.
   description: SheetJS sheet_to_json options
+↓xlsx_read_options [variables.RequestableVariable-1792657867651]: 
+  comment: Options passed to the SheetJS XLSX.read call, as a JSON object or a JSON string. For example {"cellDates":true} reads date cells as real dates instead of serial numbers.
+  description: SheetJS XLSX.read options

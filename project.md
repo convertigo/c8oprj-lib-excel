@@ -633,6 +633,14 @@ Options passed to the SheetJS sheet_to_json call, as a JSON object or a JSON str
 The range of cells to retrieve for ex: "A1:D10" (If not provided or empty string, all non empty cells in a sheet)
 </td>
 </tr>
+<tr>
+<td>
+<img src="https://github.com/convertigo/convertigo/blob/develop/engine/src/com/twinsoft/convertigo/beans/variables/images/variable_color_16x16.png?raw=true "  alt="RequestableVariable" >&nbsp;xlsx_read_options
+</td>
+<td>
+Options passed to the SheetJS XLSX.read call, as a JSON object or a JSON string. For example {"cellDates":true} reads date cells as real dates instead of serial numbers.
+</td>
+</tr>
 </table>
 
 </p></blockquote></details>
