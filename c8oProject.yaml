@@ -229,6 +229,8 @@
     ### TestLocalExcelNonRegression
     
     Runs local Excel non-regression checks against versioned XLSX fixtures. Verifies the 50-row sample, typed values, XLSX export, and round-trip import. The temporary round-trip file is deleted before assertions are reported.
+    
+    
     '
   corsOrigin: =Origin
   version: 1.2.9
