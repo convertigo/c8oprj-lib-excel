@@ -130,6 +130,28 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
   variableName: optionsExportSuccess
 ↓CleanupOptionsFile [steps.DeleteStep-1792589735796]: 
   sourcePath: context.getProjectDirectory() + "/outputs/sample/.non_regression_options.xlsx"
+↓PrepareDatesRead [steps.SimpleStep-1792661342504]: 
+  expression: |
+    itemPath = context.getProjectDirectory() + "/sample/non_regression_dates.xlsx";
+    name = "Events";
+    range = "A1:B2";
+    xlsx_read_options = '{"cellDates":true}';
+↓ReadWithCellDates [steps.SequenceStep-1792661342525]: 
+  sourceSequence: lib_MicrosoftExcel.SheetGetRangeFile
+  ↓itemPath [variables.StepVariable-1792661342528]: 
+  ↓name [variables.StepVariable-1792661342533]: 
+  ↓range [variables.StepVariable-1792661342535]: 
+  ↓xlsx_read_options [variables.StepVariable-1792661342537]: 
+↓datesRows [steps.SourceStep-1792661342553]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1792661342525
+        - java.lang.String: 
+          - ↑value: ./document/ExcelSheet/*
+  variableName: datesRows
 ↓AssertResults [steps.SimpleStep-1785327956427]: 
   expression: |
     'function fieldText(row, fieldName) {
@@ -142,6 +164,7 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
     var typesCount = typesRows.getLength();
     var roundTripCount = roundTripRows.getLength();
     var optionsCount = optionsRows.getLength();
+    var datesCount = datesRows.getLength();
     
     if (sampleCount != 50) {
     	failures.push("sample row count expected 50, got " + sampleCount);
@@ -178,19 +201,30 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
     	if (fieldText(optionsRows.item(1), "score") != "") failures.push("options defval did not fill the empty score cell");
     }
     
+    if (datesCount != 1) {
+    	failures.push("dates row count expected 1, got " + datesCount);
+    } else {
+    	if (fieldText(datesRows.item(0), "name") != "Alice") failures.push("dates fixture name");
+    	var whenText = fieldText(datesRows.item(0), "when");
+    	if (whenText == null || whenText.indexOf("2026-10-2") != 0) {
+    		failures.push("cellDates did not parse the date cell as a date, got: " + whenText);
+    	}
+    }
+    
     if (failures.length > 0) {
     	throw new Error("Local Excel non-regression failed: " + failures.join("; "));
     }
     
     regressionResult = {
     	status: "ok",
-    	total: 5,
+    	total: 6,
     	tests: [
     		{name: "read_50_row_fixture", status: "ok", rows: sampleCount},
     		{name: "read_typed_fixture", status: "ok", rows: typesCount},
     		{name: "export_xlsx", status: "ok"},
     		{name: "round_trip_xlsx", status: "ok", rows: roundTripCount},
-    		{name: "read_with_options_defval", status: "ok", rows: optionsCount}
+    		{name: "read_with_options_defval", status: "ok", rows: optionsCount},
+    		{name: "read_with_xlsx_read_options_celldates", status: "ok", rows: datesCount}
     	]
     };'
 ↓NonRegressionResult [steps.JsonToXmlStep-1785327956453]: 
