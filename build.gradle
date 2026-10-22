@@ -2,12 +2,12 @@ buildscript {
 	repositories {
 		mavenLocal()
 		maven {
-			url "https://m2.convertigo.com"
+			url = uri("https://m2.convertigo.com")
 		}
-		jcenter()
+		mavenCentral()
 	}
 	dependencies {
-		classpath 'com.convertigo:gradle-plugin:7.9.0-SNAPSHOT'
+		classpath 'com.convertigo:gradle-plugin:8.4.6'
 	}
 }
 
@@ -23,15 +23,15 @@ def performsMobileBuild = file('_c8oProject/mobilePages').exists() && !'false'.e
 load {
 	//// change the 'version' property of the project at loading
 	//// can also be configured with a -Pconvertigo.load.projectVersion as Gradle parameter
-	// projectVersion '1.0.0-release'
+	// projectVersion = '1.0.0-release'
 	
 	//// change the 'Convertigo server endpoint' property of the project's mobile application at loading
 	//// can also be configured with a -Pconvertigo.load.mobileApplicationEndpoint as Gradle parameter
-	// mobileApplicationEndpoint 'https://myserver.com/convertigo'
+	// mobileApplicationEndpoint = 'https://myserver.com/convertigo'
 	
 	//// specify a folder where to auto-import git references
 	//// can also be configured with a -Pconvertigo.load.gitContainer as Gradle parameter
-	// gitContainer '..'
+	// gitContainer = '..'
 	
 	doLast {
 		//// any property of the project can be changed here
@@ -52,7 +52,7 @@ generateMobileBuilder {
 	//// configure the generation mode, can be can be production (default) or debugplus, debug, fast
 	//// if omitted, compileMobileBuilder.mode is used
 	//// can also be configured with a -Pconvertigo.generateMobileBuilder.mode as Gradle parameter
-	// mode 'production'
+	// mode = 'production'
 }
 
 //// the 'compileMobileBuilder' task depends on 'generateMobileBuilder' and compiles the Ionic application with NPM into DisplayObject/mobile
@@ -60,38 +60,38 @@ compileMobileBuilder {
 	//// configure the generation mode, can be can be production (default) or debug
 	//// if omitted, generateMobileBuilder.mode is used
 	//// can also be configured with a -Pconvertigo.compileMobileBuilder.mode as Gradle parameter
-	// mode 'production'
+	// mode = 'production'
 }
 
 //// the 'car' task allows to build a <projectName>.car inside the <projectdir>/build folder
 car {
 	//// configure the destination of the <projectName>.car file (default 'build' folder)
 	//// can also be configured with a -Pconvertigo.car.destinationDir as Gradle parameter
-	// destinationDir 'build'
+	// destinationDir = 'build'
 	
 	//// include TestCases (default true)
 	//// can also be configured with a -Pconvertigo.car.includeTestCases as Gradle parameter 
-	// includeTestCases true
+	// includeTestCases = true
 	
 	//// include Stubs (default true)
 	//// can also be configured with a -Pconvertigo.car.includeStubs as Gradle parameter
-	// includeStubs true
+	// includeStubs = true
 	
 	//// include  built MobileApp (default true)
 	//// can also be configured with a -Pconvertigo.car.includeMobileApp as Gradle parameter
-	// includeMobileApp true
+	// includeMobileApp = true
 	
 	//// include  built MobileApp assets (default true)
 	//// can also be configured with a -Pconvertigo.car.includeMobileAppAssets as Gradle parameter
-	// includeMobileAppAssets true
+	// includeMobileAppAssets = true
 	
 	//// include mobile dataset (default true)
 	//// can also be configured with a -Pconvertigo.car.includeMobileDataset as Gradle parameter
-	// includeMobileDataset true
+	// includeMobileDataset = true
 	
 	//// include mobile platform assets (default true)
 	//// can also be configured with a -Pconvertigo.car.includeMobilePlatformsAssets as Gradle parameter
-	// includeMobilePlatformsAssets true
+	// includeMobilePlatformsAssets = true
 	
 	doLast {
 		println "Saved Convertigo archive: $destinationFile"
@@ -99,26 +99,34 @@ car {
 }
 
 //// the 'deploy' task depends on 'car' and allows to push the project to a Convertigo server
+//// the task is auto skipped if properties are empties, following tasks can check deploy.state.didWork
 deploy {
 	//// deploy the current project to <server> using user/password credentials
 	//// can also be configured with a -Pconvertigo.deploy.server as Gradle parameter
-	// server 'https://myserver.com/convertigo'
+	//// Note: the task is skipped if the property doesn't start with http
+	// server = 'https://myserver.com/convertigo'
 	
 	//// user used by the deploy action, default is 'admin'
 	//// can also be configured with a -Pconvertigo.deploy.user as Gradle parameter
-	// user 'admin'
+	//// Note: the task is skipped if the property is empty
+	// user = 'admin'
 	
 	//// password used by the deploy action, default is 'admin'
 	//// can also be configured with a -Pconvertigo.deploy.password as Gradle parameter
-	// user 'password'
+	//// Note: the task is skipped if the property is empty
+	// password = 'password'
 	
 	//// deploy over an https <server> without checking certificates, default is false
 	//// can also be configured with a -Pconvertigo.deploy.trustAllCertificates as Gradle parameter
-	// trustAllCertificates false
+	// trustAllCertificates = false
 	
 	//// assemble XSL files on deploy, default is false
 	//// can also be configured with a -Pconvertigo.deploy.assembleXsl as Gradle parameter
-	// assembleXsl false
+	// assembleXsl = false
+	
+	//// retry <retry> times in case of deploy failure, default is 5
+	//// can also be configured with a -Pconvertigo.deploy.retry as Gradle parameter
+	// retry = 5
 }
 
 //// the 'remoteBuild' task depends on 'load' and it's just a configurator for 'launchRemoteBuild' and 'downloadRemoteBuild'
@@ -166,7 +174,8 @@ localBuild {
 		dependsOn compileMobileBuilder
 	}
 	
-	//// list platforms to build
+	//// set an array of platforms (Convertigo Platforms object) names to build, empty means all declared platforms
+	//// can also be configured with a -Pconvertigo.localBuild.platforms as Gradle parameter (names separated by comma)
 	// platforms = []
 	
 	//// build mode of the native package, can be 'release' or 'debug' (default)
@@ -212,7 +221,7 @@ launchRemoteBuild {
 downloadRemoteBuild {
 	//// configure the destination of built mobile application packages (default 'build' folder)
 	//// can also be configured with a -Pconvertigo.downloadRemoteBuild.destinationDir as Gradle parameter
-	// destinationDir 'build'
+	// destinationDir = 'build'
 	
 	doLast {
 		destinationFiles.each {
@@ -224,8 +233,8 @@ downloadRemoteBuild {
 //// the 'wrapper' task is used to upgrade the Gradle wrapper of the projet
 if (!tasks.findByName('wrapper')) {
 	task wrapper(type: Wrapper) {
-		group 'build setup'
-		description 'Generates Gradle wrapper files.'
+		group = 'build setup'
+		description = 'Generates Gradle wrapper files.'
 	}
 }
-wrapper.gradleVersion = '6.7.1'
+wrapper.gradleVersion = '9.3.1'
