@@ -1,0 +1,113 @@
+# Template configuration for Convertigo project CI build on GitHub Actions
+# Please consult the GitHub documentation for details about settings
+# https://docs.github.com/en/actions
+#
+# This sample assumes you have declared the following Encrypted Secrets
+# https://docs.github.com/en/actions/reference/encrypted-secrets
+#
+# C8O_SERVER: Convertigo server endpoint, where the built mobile application will connect
+#             and the backend project will be deployed, like https://<myhost>/convertigo
+# C8O_USER: Convertigo server admin or a user with role PROJECTS_CONFIG, used for the deployment
+# C8O_PASSWORD: Convertigo server password for the C8O_USER
+#
+# C8O_SERVER_PROD: override C8O_SERVER for tags
+# C8O_USER_PROD: override C8O_USER for tags
+# C8O_PASSWORD_PROD: override C8O_PASSWORD for tags
+#
+# Discover all tasks and -Pconvertigo options in your project build.gradle file.
+
+name: Convertigo CI
+
+on:
+  push:
+    branches:
+      - '**'
+    tags:
+      - '**'
+
+jobs:
+  build_and_deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v7
+        with:
+          ssh-key: ${{ secrets.SSH_KEY }}
+
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Cache Gradle Dependencies
+        uses: actions/cache@v6
+        with:
+            path: |
+               ~/.gradle/caches
+               ~/.gradle/wrapper
+            key: ${{ runner.os }}-gradle-caches-v1-${{ hashFiles('**/*.gradle', '**/gradle/wrapper/gradle-wrapper.properties') }}
+            restore-keys: ${{ runner.os }}-gradle-caches-v1-
+
+      - name: Convertigo generate application code
+        env:
+          C8O_SERVER: ${{ github.ref_type == 'tag' && secrets.C8O_SERVER_PROD || secrets.C8O_SERVER }}
+        run: |
+          echo "Generate Mobile Builder App" && \
+          sh gradlew --stacktrace --info generateMobileBuilder export -x compileMobileBuilder \
+            "-Pconvertigo.load.mobileApplicationEndpoint=$C8O_SERVER"
+
+      - name: Cache Node Modules
+        uses: actions/cache@v6
+        with:
+            path: |
+              ${{ github.workspace }}/_private/ionic/node_modules
+              ${{ github.workspace }}/_private/ionic/.angular
+              /home/runner/convertigo/nodes
+            key: ${{ runner.os }}-build-node-${{ hashFiles('**/_private/ionic/package.json', '**/_private/ionic/package-lock.json', '**/_private/ionic/version.json') }}
+            restore-keys: ${{ runner.os }}-build-node-
+
+      - name: Build and deploy based on branch or tag
+        env:
+          C8O_SERVER: ${{ github.ref_type == 'tag' && secrets.C8O_SERVER_PROD || secrets.C8O_SERVER }}
+          C8O_USER: ${{ github.ref_type == 'tag' && secrets.C8O_USER_PROD || secrets.C8O_USER }}
+          C8O_PASSWORD: ${{ github.ref_type == 'tag' && secrets.C8O_PASSWORD_PROD || secrets.C8O_PASSWORD }}
+        run: |
+          if [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "Deploying to production server $C8O_SERVER";
+          else
+            echo "Deploying to development server $C8O_SERVER";
+          fi
+          sh gradlew --stacktrace --info car deploy -x generateMobileBuilder \
+            "-Pconvertigo.deploy.server=$C8O_SERVER" \
+            "-Pconvertigo.deploy.user=$C8O_USER" \
+            "-Pconvertigo.deploy.password=$C8O_PASSWORD"
+
+      - name: Save application project
+        uses: actions/upload-artifact@v7
+        with:
+          name: project
+          path: build/*.car
+          if-no-files-found: error
+
+  release:
+    if: github.ref_type == 'tag'
+    needs: build_and_deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Download CAR File
+        uses: actions/download-artifact@v8
+        with:
+          name: project
+
+      - name: Deploy to GitHub Release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: '*.car'
+          tag_name: ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
