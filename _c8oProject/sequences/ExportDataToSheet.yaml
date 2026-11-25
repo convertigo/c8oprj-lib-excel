@@ -9,7 +9,7 @@ comment: |
   <th>name</th><th>comment</th>
   </tr>
   <tr>
-  <td>file</td><td>local_path -> Server local file path.<br> url_path -> Server file path url.</td>
+  <td>file</td><td>local_path -> Server local file path (internal calls only, null for an HTTP client).<br> url_path -> Server file path url.</td>
   </tr>
   <tr>
   <td>success</td><td>true/false</td>
@@ -173,27 +173,81 @@ comment: |
     include(''SheetJS/SheetJS.js'');
     is_success = false;
     error_msg = "";
+    local_path_value = null;
     book_type = (book_type != null && String(book_type) != "") ? String(book_type) : "xlsx";
     var book_definition = book_types[book_type];
     var ext = book_definition != null ? book_definition["extension"] : ".xlsx";
-    file_name = (file_name != null && String(file_name) != "") ? String(file_name) : "output" + ext;
+    var requested_name = (file_name != null && String(file_name) != "") ? String(file_name) : "output" + ext;
+    var valid_name = /^[A-Za-z0-9][A-Za-z0-9._-]{0,79}$/.test(requested_name)
+      && requested_name.indexOf("..") == -1
+      && requested_name.slice(-ext.length).toLowerCase() == ext.toLowerCase();
+    file_name = java.util.UUID.randomUUID().toString() + "-" + (valid_name ? requested_name : "output" + ext);
     sheet_name = (sheet_name != null && String(sheet_name) != "") ? String(sheet_name) : "Sheet";
-    var output_file = (context.getProjectDirectory()).replace("\\", "/") + "/outputs/" + file_name;
+    var output_dir = new java.io.File(context.getProjectDirectory(), "outputs");
+    var output_file = new java.io.File(output_dir, file_name).getCanonicalPath();
     var url_file = context.getConvertigoUrl() + "projects/" + context.getProjectName() + "/outputs/" + file_name;
-    if (data_error != "") {
+    // An HTTP client only gets the URL of the file: its path on the server is kept for internal callers.
+    var internal_call = false;
+    try {
+        internal_call = context.requestedObject.getRequester().isInternal() == true;
+    } catch (e) {
+        internal_call = false;
+    }
+    // Size of the export, bounded by the symbol lib_MicrosoftExcel.maxExportCells (cells of all the rows).
+    var max_cells = parseInt("" + com.twinsoft.convertigo.engine.Engine.theApp.databaseObjectsManager
+        .getCompiledValue("$" + "{lib_MicrosoftExcel.maxExportCells=2000000}"), 10);
+    if (isNaN(max_cells) || max_cells < 1) {
+        max_cells = 2000000;
+    }
+    var cells = 0;
+    // header (optional): the order of the columns of the sheet, a JSON array of their names (keys of the rows), written first.
+    // Without it the columns follow the keys of the first rows, where a name made of digits ("2024") comes first.
+    var header_list = null;
+    var header_error = "";
+    if (typeof header != "undefined" && header != null && String(header) != "") {
+        try {
+            header_list = JSON.parse(String(header));
+        } catch (e) {
+            header_list = null;
+        }
+        if (!Array.isArray(header_list) || header_list.length > 16384) {
+            header_list = null;
+            header_error = "Invalid header";
+        } else {
+            for (var headerIndex = 0; headerIndex < header_list.length; headerIndex++) {
+                if (header_list[headerIndex] == null || typeof header_list[headerIndex] == "object") {
+                    header_list = null;
+                    header_error = "Invalid header";
+                    break;
+                }
+                header_list[headerIndex] = String(header_list[headerIndex]);
+            }
+        }
+    }
+    if (!valid_name || !output_file.startsWith(output_dir.getCanonicalPath() + java.io.File.separator)) {
+        error_msg = "Invalid output file name";
+    } else if (data_error != "") {
         error_msg = data_error;
     } else if (typeof jsonVar == "undefined" || jsonVar == null) {
         error_msg = "No data provided";
     } else if (!Array.isArray(jsonVar)) {
         error_msg = "Data must be an array of objects";
-    } else if (book_definition == null) {
+    } else if (book_definition == null || book_type == "html") {
         error_msg = "Unsupported book type: " + book_type;
+    } else if (header_error != "") {
+        error_msg = header_error;
     } else {
+        // the names of the header are cells of the sheet too
+        cells = header_list != null ? header_list.length : 0;
         for (var rowIndex = 0; rowIndex < jsonVar.length; rowIndex++) {
             if (jsonVar[rowIndex] == null || typeof jsonVar[rowIndex] != "object" || Array.isArray(jsonVar[rowIndex])) {
                 error_msg = "Data must be an array of objects";
                 break;
             }
+            cells += Object.keys(jsonVar[rowIndex]).length;
+        }
+        if (error_msg == "" && cells > max_cells) {
+            error_msg = "Too much data to export: " + cells + " cells, at most " + max_cells + " (symbol lib_MicrosoftExcel.maxExportCells)";
         }
     }
     if (error_msg == "") {
@@ -205,7 +259,7 @@ comment: |
     //        var ba = com.twinsoft.convertigo.engine.util.Base64.decode(output);
     //        org.apache.commons.io.FileUtils.writeByteArrayToFile(new java.io.File(output_file), ba);
     //        is_success = true;
-    		var ws = XLSX.utils.json_to_sheet(jsonVar);
+    		var ws = header_list != null ? XLSX.utils.json_to_sheet(jsonVar, {header: header_list}) : XLSX.utils.json_to_sheet(jsonVar);
     		var wb = XLSX.utils.book_new();
     		XLSX.utils.book_append_sheet(wb, ws, sheet_name);
     		
@@ -229,6 +283,7 @@ comment: |
     			new java.io.File(output_file)
     		);
     		
+    		local_path_value = internal_call ? output_file : null;
     		is_success = true;
         } catch (e) {
             error_msg = "Can not export data";
@@ -257,7 +312,7 @@ comment: |
             - ↑classname: com.twinsoft.convertigo.beans.steps.SmartType
             - SmartType: 
               - ↑mode: JS
-              - →→: output_file
+              - →→: local_path_value
       ↓url_path [steps.JsonFieldStep-1718724633238]: 
         key: 
           - xmlizable: 
@@ -307,6 +362,8 @@ comment: |
 ↓book_type [variables.RequestableVariable-1718724633259]: 
   comment: Type of workbook to export to. Default is XLSX.
   value: xlsx
+↓header [variables.RequestableVariable-1797210000201]: 
+  comment: Optional. The order of the columns of the sheet, a JSON array of their names (the keys of the rows of data), written first in this order. Each name counts as a cell of the export.
 ↓bin [variables.RequestableVariable-1789743278464]: 
 ↓Test_Case [core.TestCase]: 
   ↓data [variables.TestCaseVariable-1718724633263]: 

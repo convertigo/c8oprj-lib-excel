@@ -33,7 +33,7 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
 ↓PrepareRoundTripExport [steps.SimpleStep-1785327890571]: 
   expression: |
     data = '[{"name":"Alice","city":"Rome","score":42},{"name":"Bob","city":"Paris","score":17}]';
-    file_name = "sample/.non_regression_roundtrip.xlsx";
+    file_name = "non_regression_roundtrip.xlsx";
     sheet_name = "RoundTrip";
     book_type = "xlsx";
 ↓ExportRoundTrip [steps.SequenceStep-1785327890583]: 
@@ -44,9 +44,18 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
   ↓book_type [variables.StepVariable-1785327890636]: 
 ↓PrepareRoundTripRead [steps.SimpleStep-1785327890648]: 
   expression: |
-    itemPath = context.getProjectDirectory() + "/outputs/sample/.non_regression_roundtrip.xlsx";
     name = "RoundTrip";
     range = "A1:C3";
+↓RoundTripPath [steps.SimpleSourceStep-1789991000401]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1785327890583
+        - java.lang.String: 
+          - ↑value: ./document/file/local_path/text()
+  variableName: itemPath
 ↓ReadRoundTrip [steps.SequenceStep-1785327890663]: 
   sourceSequence: lib_MicrosoftExcel.SheetGetRangeFile
   ↓itemPath [variables.StepVariable-1785327890678]: 
@@ -83,11 +92,11 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
           - ↑value: ./document/ExcelSheet/*
   variableName: roundTripRows
 ↓CleanupRoundTripFile [steps.DeleteStep-1785327956414]: 
-  sourcePath: context.getProjectDirectory() + "/outputs/sample/.non_regression_roundtrip.xlsx"
+  sourcePath: itemPath
 ↓PrepareOptionsExport [steps.SimpleStep-1792589735682]: 
   expression: |
     data = '[{"name":"Alice","city":"Rome","score":42},{"name":"Bob","city":"Paris","score":null}]';
-    file_name = "sample/.non_regression_options.xlsx";
+    file_name = "non_regression_options.xlsx";
     sheet_name = "Options";
     book_type = "xlsx";
 ↓ExportOptions [steps.SequenceStep-1792589735710]: 
@@ -98,10 +107,19 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
   ↓book_type [variables.StepVariable-1792589735720]: 
 ↓PrepareOptionsRead [steps.SimpleStep-1792589735727]: 
   expression: |
-    itemPath = context.getProjectDirectory() + "/outputs/sample/.non_regression_options.xlsx";
     name = "Options";
     range = "A1:C3";
     options = '{"defval":""}';
+↓OptionsPath [steps.SimpleSourceStep-1792589735735]: 
+  sourceDefinition: 
+    - xmlizable: 
+      - ↑classname: com.twinsoft.convertigo.beans.common.XMLVector
+      - com.twinsoft.convertigo.beans.common.XMLVector: 
+        - java.lang.String: 
+          - ↑value: 1792589735710
+        - java.lang.String: 
+          - ↑value: ./document/file/local_path/text()
+  variableName: itemPath
 ↓ReadWithOptions [steps.SequenceStep-1792589735740]: 
   sourceSequence: lib_MicrosoftExcel.SheetGetRangeFile
   ↓itemPath [variables.StepVariable-1792589735742]: 
@@ -129,7 +147,7 @@ comment: Runs local Excel non-regression checks against versioned XLSX fixtures.
           - ↑value: ./document/success/text()
   variableName: optionsExportSuccess
 ↓CleanupOptionsFile [steps.DeleteStep-1792589735796]: 
-  sourcePath: context.getProjectDirectory() + "/outputs/sample/.non_regression_options.xlsx"
+  sourcePath: itemPath
 ↓PrepareDatesRead [steps.SimpleStep-1792661342504]: 
   expression: |
     itemPath = context.getProjectDirectory() + "/sample/non_regression_dates.xlsx";

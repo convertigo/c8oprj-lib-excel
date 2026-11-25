@@ -1,0 +1,6 @@
+# Never served under /convertigo/projects/lib_MicrosoftExcel/ (engine .httpignore, gitignore syntax).
+# Development and CI material.
+/.github/
+/.vscode/
+/tests/
+/tools/

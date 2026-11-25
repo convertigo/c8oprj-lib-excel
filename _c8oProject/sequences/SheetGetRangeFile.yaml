@@ -1,4 +1,4 @@
-accessibility: Hidden
+accessibility: Private
 comment: Imports an xlsx file ( from "itemPath") and outputs a JSON object of the "name" Sheet by the range of "range". Uses the SheetJS CE framework. The optional "options" variable is passed to the SheetJS sheet_to_json call (as a JSON object or a JSON string), for example {"defval":""} to fill empty cells with a default value so every row has the same columns.
 ↓read_xlsx [steps.SimpleStep-1708681393921]: 
   comment: Reads the worksheet with SheetJS and applies the sequence variable "options" (JSON object or JSON string) to sheet_to_json, on top of the decoded "range".

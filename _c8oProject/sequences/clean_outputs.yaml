@@ -1,4 +1,7 @@
-comment: 'Clean the generated files. Can be used in a Convertigo scheduled job to automate the process. Variables : ''max_time'' => delete only files older than x ms. ''all'' => Delete all files in folder even in a max_time is defined. ''target'' => Folder path containing the files to delete. Can use "./",  ".//" or absolute path syntax.'
+accessibility: Private
+comment: Clean generated files from this project's outputs directory.
+↓UseProjectOutputDirectory [steps.SimpleStep-1789991000201]: 
+  expression: target = new java.io.File(context.getProjectDirectory(), "outputs").getCanonicalPath();
 ↓jIf [steps.IfStep-1789981573978]: 
   condition: target == null || target == ""
   ↓Return [steps.ReturnStep-1789981573981]: 
